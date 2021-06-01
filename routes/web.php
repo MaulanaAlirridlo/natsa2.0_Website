@@ -38,10 +38,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', function(){
     return view('user.categories');
 })->name('categories');
-
+// halaman about
+Route::get('/about', function () {
+    return view('user.about');
+})->name('about');
 //product
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');
+
 
 //Admin
 Route::middleware(['auth'])->group(function () {
