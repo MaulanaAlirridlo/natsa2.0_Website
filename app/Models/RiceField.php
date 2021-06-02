@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\Irrigation;
-use App\Models\Region;
-use App\Models\RiceField;
 use App\Models\User;
-use App\Models\Verification;
+use App\Models\Region;
 use App\Models\Vestige;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\RiceField;
+use App\Models\Irrigation;
+use App\Models\Verification;
+use App\Models\RiceFieldPhoto;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RiceField extends Model
 {
@@ -59,6 +60,10 @@ class RiceField extends Model
     public function verification()
     {
         return $this->belongsTo(Verification::class);
+    }
+
+    public function photos(){
+        return $this->hasMany(RiceFieldPhoto::class);
     }
 
     /*
