@@ -73,7 +73,7 @@
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="{{ route('home') }}">Home</a>
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="{{ route('products') }}">Sawah</a>
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="{{ route('categories') }}">Categories</a>
-                <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="#">Contact</a>
+                <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href=" {{route('contact')}} ">Contact</a>
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href=" {{route('about')}} ">About</a>
             </div>
         </nav>

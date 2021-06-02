@@ -42,6 +42,10 @@ Route::get('/categories', function(){
 Route::get('/about', function () {
     return view('user.about');
 })->name('about');
+//halaman contact
+Route::get('/contact', function () {
+    return view('user.contact');
+})->name('contact');
 //product
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');

@@ -1,7 +1,7 @@
 @extends('layouts.web')
 
 @section('title')
-Contact
+About
 @endsection
 
 @section('body')
