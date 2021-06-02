@@ -9,8 +9,8 @@ Contact
 
 
 
-    <div class="flex w-full min-h-screen justify-center items-center">
-        <div class="flex flex-col md:flex-row md:space-x-6 md:space-y-0 space-y-6  bg-green-100 w-full max-w-4xl p-10  rounded-lg shadow-lg ">
+    <div class="flex w-full  justify-center items-center">
+        <div class="flex flex-col md:flex-row md:space-x-6 md:space-y-0 space-y-6  bg-white w-full max-w-4xl p-10  ">
             <div class="flex flex-col space-y-8 justify-between">
                 <div>
                     <h1 class="font-bold text-4xl tracking-wide">Contact Us</h1>
@@ -85,21 +85,20 @@ Contact
             
             </div>
                         <div>
-                            <div class="bg-white rounded-lg shadow-lg p-10 mt-5 shadow-outline-blue">
+                            <div class="bg-white p-10 mt-5 border border-l-0 md:border-l border-t-0 border-r-0 border-b-0 ">
                                 <form action="" class="flex flex-col space-y-4">
                                     <div>
                                         <label for="" class="text-md font-bold"> Nama Lengkap </label>
-                                        <input type="text" placeholder="Nama Lengkap" class="border border-black w-full rounded-md px-4 py-2 mt-3 shadow-outline-blue" >
+                                        <input type="text" placeholder="Nama Lengkap" class="border border-black w-full rounded-md px-4 py-2 mt-3 " >
                                     </div>
                                     <div>
                                         <label for="" class="text-md font-bold"> Email </label>
-                                        <input type="email" placeholder="Email" class="border border-black w-full rounded-md px-4 py-2 mt-3 shadow-outline-blue">
+                                        <input type="email" placeholder="Email" class="border border-black w-full rounded-md px-4 py-2 mt-3 ">
                                     </div>
                                     <div>
                                         <label for="" class="text-md font-bold"> Pesan </label>
                                         <textarea name="pesan" rows="4" placeholder="Pesan"
-                                        class="border border-black w-full rounded-md px-4 py-2 mt-3 shadow-outline-blue">
-                                        </textarea>
+                                        class="border border-black w-full rounded-md px-4 py-2 mt-3 "></textarea>
                                     </div>                
                                         <button class="inline-block w-full self-end text-blue-900 font-bold bg-indigo-100 rounded-lg px-6 py-3 shadow-outline-blue uppercase text-sm">Kirim</button>
                                 </form>
