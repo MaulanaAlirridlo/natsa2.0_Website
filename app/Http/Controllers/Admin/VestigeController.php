@@ -50,7 +50,7 @@ class VestigeController extends Controller
     {
 
         $this->validate($request, [
-            'vestige' => 'required|max:150',
+            'vestige' => 'required|max:100',
         ]);
 
         Vestige::create([
@@ -72,7 +72,7 @@ class VestigeController extends Controller
     public function put(Vestige $vestige, Request $request)
     {
         $this->validate($request, [
-            'vestige' => 'required|max:150',
+            'vestige' => 'required|max:100',
         ]);
 
         $vestige->where('id', $vestige->id)

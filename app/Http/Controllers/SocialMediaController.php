@@ -48,10 +48,9 @@ class SocialMediaController extends Controller
 
     public function store(Request $request)
     {
-        // dd("hello");
 
         $this->validate($request, [
-            'sosmed' => 'required|max:150',
+            'sosmed' => 'required|max:100',
         ]);
 
         $sosmed = SocialMedia::create([
@@ -66,10 +65,11 @@ class SocialMediaController extends Controller
             $fileName = $sosmed->id . '-' . Str::random(20) . '.' . $extension;
 
             //simpan icon
-            $request->file('icon')->storeAs('public/sosmedIcons', $fileName, '');
+            $file->storeAs('public/sosmedIcons', $fileName, '');
             //update icon_path
             $sosmed->update(['icon_path' => 'sosmedIcons/' . $fileName]);
         }
+
 
         return redirect()->route('admin.socialMedias');
 
@@ -90,7 +90,7 @@ class SocialMediaController extends Controller
     public function put(SocialMedia $socialMedia, Request $request)
     {
         $this->validate($request, [
-            'sosmed' => 'required|max:150',
+            'sosmed' => 'required|max:100',
         ]);
 
         $socialMedia->where('id', $socialMedia->id)
