@@ -50,7 +50,7 @@ class IrrigationController extends Controller
     {
 
         $this->validate($request, [
-            'irrigation' => 'required|max:150',
+            'irrigation' => 'required|max:100',
         ]);
 
         irrigation::create([
@@ -72,7 +72,7 @@ class IrrigationController extends Controller
     public function put(irrigation $irrigation, Request $request)
     {
         $this->validate($request, [
-            'irrigation' => 'required|max:150',
+            'irrigation' => 'required|max:100',
         ]);
 
         $irrigation->where('id', $irrigation->id)
