@@ -9,6 +9,8 @@
 
     <title>@yield('title')</title>
 
+    @yield('header')
+
     {{-- tailwind css --}}
     <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 
@@ -29,6 +31,7 @@
 
         @include('user.partials.footer')
     </div>
+    @yield('script')
 </body>
 
 </html>

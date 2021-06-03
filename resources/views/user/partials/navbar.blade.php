@@ -13,7 +13,7 @@
                 <span class="mx-1 text-sm">IND</span>
             </div>
             <div class="w-full text-gray-700 md:text-center text-2xl font-semibold">
-                NATURE SAWAH
+                NatSa
             </div>
             <div class="flex items-center justify-end w-full">
 
@@ -75,6 +75,7 @@
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="{{ route('categories') }}">Categories</a>
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href=" {{route('contact')}} ">Contact</a>
                 <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href=" {{route('about')}} ">About</a>
+                <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href=" {{route('faq')}} ">FAQ</a>
             </div>
         </nav>
         <div class="relative mt-6 max-w-lg mx-auto">

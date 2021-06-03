@@ -46,6 +46,10 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('user.contact');
 })->name('contact');
+//halaman FAQ
+Route::get('/faq', function () {
+    return view('user.faq');
+})->name('faq');
 //product
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');
