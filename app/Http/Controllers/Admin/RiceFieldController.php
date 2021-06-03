@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\Region;
-use App\Models\Vestige;
-use App\Models\RiceField;
-use App\Models\Irrigation;
-use App\Models\Verification;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Irrigation;
+use App\Models\Region;
+use App\Models\RiceField;
+use App\Models\RiceFieldPhoto;
+use App\Models\User;
+use App\Models\Verification;
+use App\Models\Vestige;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RiceFieldController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $riceField = RiceField::orderBy('created_at', 'asc')->with(['user', 'vestige', 'irrigation', 'region', 'verification'])->paginate(10);
 
-        return view('admin.riceFields.riceField',[
+        return view('admin.riceFields.riceField', [
             'riceFields' => $riceField,
         ]);
     }
@@ -28,7 +31,6 @@ class RiceFieldController extends Controller
         $irrigations = Irrigation::orderBy('irrigation', 'asc')->get();
         $regions = Region::orderBy('provinsi', 'asc')->get();
         $verifications = Verification::orderBy('verification_type', 'asc')->get();
-
 
         return view('admin.riceFields.riceFieldAdd', [
             'users' => $users,
@@ -57,6 +59,13 @@ class RiceFieldController extends Controller
         ]);
     }
 
+    public function show(RiceField $riceField)
+    {
+        return view('admin.riceFields.riceFieldShow', [
+            'riceField' => $riceField,
+        ]);
+    }
+
     public function store(Request $request)
     {
 
@@ -76,7 +85,7 @@ class RiceFieldController extends Controller
             'verification' => 'required',
         ]);
 
-        RiceField::create([
+        $riceField = RiceField::create([
             'title' => $request->title,
             'harga' => $request->harga,
             'alamat' => $request->alamat,
@@ -91,6 +100,27 @@ class RiceFieldController extends Controller
             'irrigation_id' => $request->irrigation,
             'verification_id' => $request->verification,
         ]);
+
+        if ($request->hasFile('photo')) {
+            //buat nama baru untuk fotonya
+            $files = $request->file('photo');
+            $i = 1;
+            foreach ($files as $file) {
+                $extension = $file->extension();
+                $fileName = $riceField->id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
+
+                // simpan foto di server
+                $file->storeAs('/riceFieldPhotos', $fileName, '');
+
+                //simpan nama ke database
+                RiceFieldPhoto::create([
+                    'rice_field_id' => $riceField->id,
+                    'photo_path' => 'riceFieldPhotos/' . $fileName,
+                ]);
+
+                $i++;
+            }
+        }
 
         return redirect()->route('admin.riceFields');
 

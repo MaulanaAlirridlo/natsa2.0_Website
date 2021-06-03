@@ -74,7 +74,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/regions/put/{region}', [RegionController::class, 'showPut'])->name('admin.regions.put');
         Route::get('/regions/search/', [RegionController::class, 'search'])->name('admin.regions.search');
 
-
         //irrigation
         Route::get('/irrigations', [IrrigationController::class, 'index'])->name('admin.irrigations');
         Route::post('/irrigations', [IrrigationController::class, 'store']);
@@ -119,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/riceFields/{riceField}', [RiceFieldController::class, 'put'])->name('admin.riceFields.update');
         Route::get('/riceFields/add', [RiceFieldController::class, 'showStore'])->name('admin.riceFields.add');
         Route::get('/riceFields/put/{riceField}', [RiceFieldController::class, 'showPut'])->name('admin.riceFields.put');
+        Route::get('/riceFields/{riceField}', [RiceFieldController::class, 'show'])->name('admin.riceFields.show');
 
         //verification
         Route::get('/verifications', [VerificationController::class, 'index'])->name('admin.verifications');

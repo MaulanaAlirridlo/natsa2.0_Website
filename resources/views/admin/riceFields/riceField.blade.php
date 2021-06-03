@@ -25,7 +25,7 @@
                             <th class="px-4 py-3">Irigasi</th>
                             <th class="px-4 py-3">Daerah</th>
                             <th class="px-4 py-3">Verifikasi</th>
-                            <th class="px-4 py-3" colspan="2">Menu</th>
+                            <th class="px-4 py-3" colspan="3">Menu</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -89,6 +89,15 @@
                                     <button type="submit"
                                         class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                         Edit
+                                    </button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.riceFields.show', $riceField) }}">
+                                    
+                                    <button type="submit"
+                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                        Lihat
                                     </button>
                                 </a>
                             </td>
