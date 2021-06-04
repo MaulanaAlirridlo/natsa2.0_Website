@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\RegionController;
 use App\Http\Controllers\API\VestigeController;
+use App\Http\Controllers\API\RiceFieldController;
 use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\SocialMediaController;
 use App\Http\Controllers\API\VerificationController;
@@ -66,6 +67,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [SocialMediaController::class, 'index']);
         Route::get('/{id}', [SocialMediaController::class, 'show']);
         Route::get('/search/{search}', [SocialMediaController::class, 'search']);
+
+    });
+
+    //Sawah / RiceField
+    Route::prefix('riceFields')->group(function () {
+
+        Route::get('/', [RiceFieldController::class, 'index']);
+        Route::get('/{id}', [RiceFieldController::class, 'show']);
+        Route::get('/search/{search}', [RiceFieldController::class, 'search']);
+        Route::post('/', [RiceFieldController::class, 'store']);
+        Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
+        Route::put('/{id}', [RiceFieldController::class, 'update']);
 
     });
 });

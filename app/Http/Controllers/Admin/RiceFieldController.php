@@ -122,7 +122,7 @@ class RiceFieldController extends Controller
             }
         }
 
-        return redirect()->route('admin.riceFields');
+        return redirect()->route('admin.riceFields.add');
 
     }
 
