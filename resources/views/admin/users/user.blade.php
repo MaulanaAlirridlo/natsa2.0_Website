@@ -114,7 +114,7 @@
                                 <form action="{{ route('admin.users.delete', $user) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit"
+                                    <button type="submit" onclick="return confirm('yakin ingin dihapus?')"
                                         class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                         Hapus
                                     </button>

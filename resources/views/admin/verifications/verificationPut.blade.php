@@ -17,14 +17,24 @@
                         <span class="text-gray-700 dark:text-gray-400">Jenis Verifikasi</span>
                         <input
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                        placeholder="Rust" name="verification_type" type="text" required autofocus value="{{ $verification->verification_type }}"/>
+                        placeholder="Verifikasi" name="verification_type" type="text" maxlength="150" autofocus value="{{ $verification->verification_type }}"/>
+                        @error('verification_type')
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </label>
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
                         <input
                         class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                        placeholder="Jenis rust" name="desc" type="text" required value="{{ $verification->desc }}"/>
+                        placeholder="Deskripsi" name="desc" type="text" maxlength="254" value="{{ $verification->desc }}"/>
+                        @error('desc')
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </label>
                 </div>
             </form>

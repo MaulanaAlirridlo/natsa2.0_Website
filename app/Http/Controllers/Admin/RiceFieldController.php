@@ -70,7 +70,7 @@ class RiceFieldController extends Controller
     {
 
         $this->validate($request, [
-            'title' => 'required|max:150',
+            'title' => 'required|max:100',
             'harga' => 'required|max:11',
             'luas' => 'required|max:11',
             'alamat' => 'required|max:1024',
@@ -137,7 +137,7 @@ class RiceFieldController extends Controller
     public function put(RiceField $riceField, Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|max:150',
+            'title' => 'required|max:100',
             'harga' => 'required|max:11',
             'luas' => 'required|max:11',
             'alamat' => 'required|max:1024',
