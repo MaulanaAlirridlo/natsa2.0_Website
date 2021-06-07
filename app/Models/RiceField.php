@@ -66,6 +66,10 @@ class RiceField extends Model
         return $this->hasMany(RiceFieldPhoto::class);
     }
 
+    public function photo(){
+        return $this->hasOne(RiceFieldPhoto::class);
+    }
+
     /*
     untuk api
     */

@@ -11,11 +11,18 @@ class HomeController extends Controller
     public function index()
     {
 
-        $riceFields = RiceField::limit(5)->select('id', 'title', 'harga')->get();
-        $latestRiceFields = RiceField::limit(5)->select('id', 'title', 'harga')->orderBy('created_at', 'desc')->get();
+        // $riceFields = RiceField::select('id', 'title', 'harga')
+        //     ->with('photo')
+        //     ->limit(4)->get();
+
+        $latestRiceFields = RiceField::select('id', 'title', 'harga')
+            ->with('photo')
+            ->orderBy('created_at', 'desc')
+            ->limit(4)->get();
+
+        // return $latestRiceFields;
 
         return view('user.index', [
-            'riceFields' => $riceFields,
             'latestRiceFields' => $latestRiceFields,
         ]);
     }

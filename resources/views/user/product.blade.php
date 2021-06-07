@@ -11,7 +11,9 @@ NATSA
     <div class="md:flex md:items-center">
         {{-- gambar product --}}
         <div class="w-full h-64 md:w-1/2 lg:h-96">
-            <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto" src="{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}" alt="{{ $riceField->title }}">
+            <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto" 
+            src="{{ '/storage/'.$riceField->photo->photo_path }}" 
+            alt="{{ $riceField->title }}">
         </div>
         {{-- deskripsi product --}}
         <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
@@ -80,11 +82,10 @@ NATSA
             </div> --}}
 
             <div class="flex items-center mt-6">
-                <button class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan sawah</button>
-                <button class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
-                    <i class="far fa-bookmark"></i>
-                    {{-- <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg> --}}
-                </button>
+                <button class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan sawah <i class="far fa-bookmark ml-1"></i></button>
+                {{-- <button class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
+                    <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </button> --}}
             </div>
         </div>
     </div>
@@ -93,10 +94,11 @@ NATSA
     <div class="mt-16">
         <h3 class="text-gray-600 text-2xl font-medium">Sawah yang lain</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+
             @foreach ($randomRiceFields as $randomRiceField)
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                 <a href="{{ route('product', $randomRiceField) }}">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
+                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{{ '/storage/'.$randomRiceField->photo->photo_path }}')">
                         <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500" title="bookmark">
                             <i class="far fa-bookmark"></i>
                             {{-- <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg> --}}

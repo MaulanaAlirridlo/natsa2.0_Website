@@ -212,11 +212,7 @@
                         <span class="text-gray-700 dark:text-gray-400">Gambar</span>
                         <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-<<<<<<< HEAD
-                            name="photo[]" type="file" multiple/>
-=======
-                            name="photo[]" type="file" required multiple />
->>>>>>> 6ff9062271b43ae88a1d29a9468afe25a8016982
+                            name="photo[]" type="file" multiple required/>
                     </label>
                 </div>
             </form>

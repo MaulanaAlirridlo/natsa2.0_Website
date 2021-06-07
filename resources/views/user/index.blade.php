@@ -80,7 +80,8 @@ NATSA
     <div class="mt-16">
         <h3 class="text-gray-600 text-2xl font-medium">Sawah Paling Populer</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-            @foreach ($riceFields as $riceField)
+
+            {{-- @foreach ($riceFields as $riceField)
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
                     style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
@@ -99,7 +100,8 @@ NATSA
                     <span class="text-gray-500 mt-2">Rp{{ $riceField->harga }}</span>
                 </div>
             </div>
-            @endforeach
+            @endforeach --}}
+
         </div>
     </div>
 
@@ -111,7 +113,7 @@ NATSA
             @foreach ($latestRiceFields as $latestRiceField)
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
-                    style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
+                    style="background-image: url('{{ '/storage/'.$latestRiceField->photo->photo_path }}')">
                     <button
                         class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                         <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -136,7 +138,7 @@ NATSA
         <h3 class="text-gray-600 text-2xl font-medium">Sawah Dijual Paling Populer</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
-            @foreach ($riceFields as $riceField)
+            {{-- @foreach ($riceFields as $riceField)
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
                     style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
@@ -155,16 +157,16 @@ NATSA
                     <span class="text-gray-500 mt-2">Rp{{ $riceField->harga }}</span>
                 </div>
             </div>
-            @endforeach
+            @endforeach --}}
 
         </div>
     </div>
 
     <div class="mt-16">
-        <h3 class="text-gray-600 text-2xl font-medium">Sawah Disewa Paling Populer</h3>
+        <h3 class="text-gray-600 text-2xl font-medium">Sawah Disewakan Paling Populer</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
-            @foreach ($riceFields as $riceField)
+            {{-- @foreach ($riceFields as $riceField)
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
                     style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
@@ -183,7 +185,7 @@ NATSA
                     <span class="text-gray-500 mt-2">Rp{{ $riceField->harga }}</span>
                 </div>
             </div>
-            @endforeach
+            @endforeach --}}
 
         </div>
     </div>
