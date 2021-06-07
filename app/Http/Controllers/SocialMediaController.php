@@ -65,7 +65,7 @@ class SocialMediaController extends Controller
             $fileName = $sosmed->id . '-' . Str::random(20) . '.' . $extension;
 
             //simpan icon
-            $file->storeAs('public/sosmedIcons', $fileName, '');
+            $file->storeAs('/sosmedIcons', $fileName, '');
             //update icon_path
             $sosmed->update(['icon_path' => 'sosmedIcons/' . $fileName]);
         }
