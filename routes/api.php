@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RegionController;
 use App\Http\Controllers\API\VestigeController;
 use App\Http\Controllers\API\RiceFieldController;
@@ -80,24 +79,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [RiceFieldController::class, 'store']);
         Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
         Route::put('/{id}', [RiceFieldController::class, 'update']);
-
-    });
-
-    //Social Media
-    Route::prefix('socialMedias')->group(function () {
-
-        Route::get('/', [SocialMediaController::class, 'index']);
-        Route::get('/{id}', [SocialMediaController::class, 'show']);
-        Route::get('/search/{search}', [SocialMediaController::class, 'search']);
-
-    });
-
-    //User
-    Route::prefix('users')->group(function () {
-
-        Route::get('/', [UserController::class, 'index']);
-        Route::get('/{id}', [UserController::class, 'show']);
-        Route::get('/search/{search}', [UserController::class, 'search']);
 
     });
 });
