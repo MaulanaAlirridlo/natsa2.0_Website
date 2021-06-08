@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Region;
 use App\Models\Vestige;
+use App\Models\Bookmark;
 use App\Models\RiceField;
 use App\Models\Irrigation;
 use App\Models\Verification;
@@ -62,12 +63,24 @@ class RiceField extends Model
         return $this->belongsTo(Verification::class);
     }
 
+    //mengambil semua foto
     public function photos(){
         return $this->hasMany(RiceFieldPhoto::class);
     }
 
+    //mengambil satu foto sajah
     public function photo(){
         return $this->hasOne(RiceFieldPhoto::class);
+    }
+
+    //untuk menyimpan bookmark
+    public function bookmark(){
+        return $this->hasMany(Bookmark::class);
+    }
+
+    //sudah bookmarked
+    public function bookmarkedBy(User $user){
+        return $this->bookmark->contains('user_id', $user->id);
     }
 
     /*

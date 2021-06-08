@@ -7,6 +7,7 @@ use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\Admin\VestigeController;
+use App\Http\Controllers\User\BookmarkController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
 use App\Http\Controllers\Admin\VerificationController;
@@ -53,6 +54,12 @@ Route::get('/faq', function () {
 //product
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');
+
+Route::middleware(['auth'])->group(function () {
+    
+    Route::post('/product/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
+
+});
 
 
 //Admin
