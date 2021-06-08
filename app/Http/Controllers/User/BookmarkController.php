@@ -2,30 +2,40 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Bookmark;
 use App\Models\RiceField;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class BookmarkController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware(['auth']);
     }
 
-    public function index(){
-        $bookmark = Bookmark::all();
+    public function index()
+    {
 
-        return $bookmark;
+        $riceFields = RiceField::join('bookmarks', 'rice_fields.id', '=' ,'bookmarks.rice_field_id')
+            ->select('rice_fields.id', 'rice_fields.title', 'rice_fields.harga', 'bookmarks.id as bookmarks_id')
+            ->where('bookmarks.user_id', auth()->user()->id)
+            ->with('photo')
+            ->paginate(10);
+
+        // return $riceFields;
+        return view('user.bookmarks', [
+            'riceFields' => $riceFields,
+        ]);
     }
 
-    public function store(RiceField $riceField, Request $request){
+    public function store(RiceField $riceField, Request $request)
+    {
 
         if ($riceField->bookmarkedBy($request->user())) {
             return response('Anda sudah menyimpan sawah ini', 409);
             // return abort(409);
-        }
-        else{
+        } else {
             $riceField->bookmark()->create([
                 'user_id' => $request->user()->id,
             ]);
@@ -33,5 +43,18 @@ class BookmarkController extends Controller
 
         return back();
 
+    }
+
+    public function destroy(Bookmark $bookmark){
+
+        // return $bookmark;
+
+        if(!$bookmark->ownBy(auth()->user())){
+            return "ini punya mu";
+        }
+
+        $bookmark->where('id', $bookmark->id)->delete();
+
+        return back();
     }
 }

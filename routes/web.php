@@ -58,6 +58,8 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('product'
 Route::middleware(['auth'])->group(function () {
     
     Route::post('/product/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
+    Route::get('/bookmark', [BookmarkController::class, 'index'])->name('bookmarks');
+    Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
 
 });
 

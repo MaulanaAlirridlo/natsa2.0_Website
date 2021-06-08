@@ -24,9 +24,11 @@
                 </button>
 
                 {{-- ke halaman bookmark --}}
-                <button class="text-gray-600 focus:outline-none mx-3 sm:mx-2">
-                    <i class="far fa-bookmark"></i>
-                </button>
+                <a href="{{ route('bookmarks') }}">
+                    <button class="text-gray-600 focus:outline-none mx-3 sm:mx-2">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

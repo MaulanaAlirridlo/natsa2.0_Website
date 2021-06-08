@@ -14,4 +14,8 @@ class Bookmark extends Model
         'rice_field_id', 'user_id',
     ];
 
+    public function ownBy(User $user){
+        return $user->id === $this->user_id;
+    }
+
 }
