@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\LogoutController;
 use App\Http\Controllers\API\RegionController;
 use App\Http\Controllers\API\VestigeController;
+use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\RiceFieldController;
 use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\SocialMediaController;
@@ -26,7 +29,7 @@ use App\Http\Controllers\API\VerificationController;
 
 //Regions
 Route::prefix('regions')->group(function () {
-
+    //public
     Route::get('/', [RegionController::class, 'index']);
     Route::get('/{id}', [RegionController::class, 'show']);
     Route::get('/search/{search}', [RegionController::class, 'search']);
@@ -36,6 +39,7 @@ Route::prefix('regions')->group(function () {
 //Regions
 Route::prefix('irrigations')->group(function () {
 
+    //public
     Route::get('/', [IrrigationController::class, 'index']);
     Route::get('/{id}', [IrrigationController::class, 'show']);
     Route::get('/search/{search}', [IrrigationController::class, 'search']);
@@ -45,6 +49,7 @@ Route::prefix('irrigations')->group(function () {
 //Vestiges
 Route::prefix('vestiges')->group(function () {
 
+    //public
     Route::get('/', [VestigeController::class, 'index']);
     Route::get('/{id}', [VestigeController::class, 'show']);
     Route::get('/search/{search}', [VestigeController::class, 'search']);
@@ -54,6 +59,7 @@ Route::prefix('vestiges')->group(function () {
 //Verifications
 Route::prefix('verifications')->group(function () {
 
+    //public
     Route::get('/', [VerificationController::class, 'index']);
     Route::get('/{id}', [VerificationController::class, 'show']);
     Route::get('/search/{search}', [VerificationController::class, 'search']);
@@ -63,6 +69,7 @@ Route::prefix('verifications')->group(function () {
 //Social Media
 Route::prefix('socialMedias')->group(function () {
 
+    //public
     Route::get('/', [SocialMediaController::class, 'index']);
     Route::get('/{id}', [SocialMediaController::class, 'show']);
     Route::get('/search/{search}', [SocialMediaController::class, 'search']);
@@ -72,29 +79,35 @@ Route::prefix('socialMedias')->group(function () {
 //Sawah / RiceField
 Route::prefix('riceFields')->group(function () {
 
+    //public
     Route::get('/', [RiceFieldController::class, 'index']);
     Route::get('/{id}', [RiceFieldController::class, 'show']);
     Route::get('/search/{search}', [RiceFieldController::class, 'search']);
+
+    //protected
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/', [RiceFieldController::class, 'store']);
+        Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
+        Route::put('/{id}', [RiceFieldController::class, 'update']);
+    });
 
 });
 
 //User
 Route::prefix('users')->group(function () {
 
+    //public
     Route::get('/', [UserController::class, 'index']);
     Route::get('/{id}', [UserController::class, 'show']);
     Route::get('/search/{search}', [UserController::class, 'search']);
 
-});
+    Route::post('/login', [LoginController::class, 'store']);
+    Route::post('/register', [RegisterController::class, 'store']);
 
-Route::middleware('auth:sanctum')->group(function () {
+    //protected
+    Route::middleware('auth:sanctum')->group(function () {
 
-    //Sawah / RiceField
-    Route::prefix('riceFields')->group(function () {
-
-        Route::post('/', [RiceFieldController::class, 'store']);
-        Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
-        Route::put('/{id}', [RiceFieldController::class, 'update']);
+        Route::post('/logout', [LogoutController::class, 'store']);
 
     });
 

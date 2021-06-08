@@ -39,18 +39,22 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/categories', function(){
     return view('user.categories');
 })->name('categories');
+
 // halaman about
 Route::get('/about', function () {
     return view('user.about');
 })->name('about');
+
 //halaman contact
 Route::get('/contact', function () {
     return view('user.contact');
 })->name('contact');
+
 //halaman FAQ
 Route::get('/faq', function () {
     return view('user.faq');
 })->name('faq');
+
 //product
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');
@@ -62,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
 
 });
-
 
 //Admin
 Route::middleware(['auth'])->group(function () {
