@@ -108,6 +108,8 @@ Route::prefix('users')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/logout', [LogoutController::class, 'store']);
+        Route::put('/update/{user}', [UserController::class, 'update']);
+        Route::delete('/delete', [UserController::class, 'destroy']);
 
     });
 

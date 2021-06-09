@@ -53,7 +53,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -96,9 +96,30 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        
+        $this->validate($request, [
+            'name' => 'required|max:255',
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+        ]);
+
+        $status = [
+            "code" => 200,
+            "message" => "Succes",
+            "description" => "Data berhasil diupdate",
+        ];
+
+        $data = [
+            "status" => $status,
+            "user" => $user,
+        ];
+
+        return response()->json($data);
+
     }
 
     /**
@@ -107,9 +128,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        auth()->user()->tokens()->delete();
+
+        // $user->delete();
+        auth()->user()->delete();
+
+        return[
+            'message' => "User deleted",
+        ];
+
     }
 
     /**
