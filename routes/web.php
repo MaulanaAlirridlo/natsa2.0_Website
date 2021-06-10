@@ -11,6 +11,7 @@ use App\Http\Controllers\User\BookmarkController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
 use App\Http\Controllers\Admin\VerificationController;
+use App\Http\Controllers\User\MakelarProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,10 +56,24 @@ Route::get('/faq', function () {
 })->name('faq');
 
 //product
-Route::get('/products', [ProductController::class, 'index'])->name('products');
-Route::get('/products/search/', [ProductController::class, 'search'])->name('products.search');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');
+Route::prefix('products')->group(function () {
+    
+    //public
+    Route::get('/', [ProductController::class, 'index'])->name('products');
+    Route::get('search/', [ProductController::class, 'search'])->name('products.search');
+    Route::get('/{id}', [ProductController::class, 'show'])->name('product');
 
+    //protected -> khusus kalau sudah login
+    Route::middleware(['auth'])->group(function () {
+    
+        Route::post('/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
+    
+    });
+    
+
+});
+
+//bookmark
 Route::middleware(['auth'])->group(function () {
     
     Route::post('/product/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
@@ -66,6 +81,17 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
 
 });
+
+//profile makelar
+Route::middleware(['auth'])->group(function () {
+    
+    Route::get('users/{user:email}', [MakelarProfileController::class, 'index'])->name('makelar.profile');
+
+});
+
+
+
+
 
 //Admin
 Route::middleware(['auth'])->group(function () {
