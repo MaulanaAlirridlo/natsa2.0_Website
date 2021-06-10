@@ -21,7 +21,7 @@ class IrrigationController extends Controller
                 ->allowedFilters(['irrigation'])
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id', 'created_at', 'irrigation'])
-                ->paginate(10);
+                ->get();
 
         $status = [
             "code" => 200,
@@ -39,7 +39,7 @@ class IrrigationController extends Controller
 
         $data = [
             "status" => $status,
-            "irrigation" => $irrigation,
+            "data" => $irrigation,
         ];
 
         return response()->json($data);
@@ -53,7 +53,7 @@ class IrrigationController extends Controller
      */
     public function show($id)
     {
-        $irrigation = Irrigation::where('id', $id)->get();
+        $irrigation = Irrigation::where('id', $id)->firstOrfail();
 
         $status = [
             "code" => 200,
@@ -71,7 +71,7 @@ class IrrigationController extends Controller
 
         $data = [
             "status" => $status,
-            "irrigation" => $irrigation,
+            "data" => $irrigation,
         ];
 
         return response()->json($data);
@@ -91,7 +91,7 @@ class IrrigationController extends Controller
             ->allowedSorts(['id', 'created_at', 'irrigation'])
             ->defaultSort('-created_at')
             ->where('irrigation', 'LIKE', "%{$search}%")
-            ->paginate(10);
+            ->get();
 
         $status = [
             "code" => 200,
@@ -109,7 +109,7 @@ class IrrigationController extends Controller
 
         $data = [
             "status" => $status,
-            "irrigation" => $irrigation,
+            "data" => $irrigation,
         ];
 
         return response()->json($data);

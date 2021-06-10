@@ -67,7 +67,7 @@ Route::prefix('verifications')->group(function () {
 });
 
 //Social Media
-Route::prefix('socialMedias')->group(function () {
+Route::prefix('social-media')->group(function () {
 
     //public
     Route::get('/', [SocialMediaController::class, 'index']);

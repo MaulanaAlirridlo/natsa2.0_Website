@@ -21,7 +21,7 @@ class VerificationController extends Controller
                 ->allowedFilters(['verification_type'])
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id', 'created_at', 'verification_type'])
-                ->paginate(10);
+                ->get();
 
         $status = [
             "code" => 200,
@@ -39,7 +39,7 @@ class VerificationController extends Controller
 
         $data = [
             "status" => $status,
-            "verification" => $verification,
+            "data" => $verification,
         ];
 
         return response()->json($data);
@@ -53,7 +53,7 @@ class VerificationController extends Controller
      */
     public function show($id)
     {
-        $verification = Verification::where('id', $id)->get();
+        $verification = Verification::where('id', $id)->firstOrfail();
 
         $status = [
             "code" => 200,
@@ -71,7 +71,7 @@ class VerificationController extends Controller
 
         $data = [
             "status" => $status,
-            "verification" => $verification,
+            "data" => $verification,
         ];
 
         return response()->json($data);
@@ -91,7 +91,7 @@ class VerificationController extends Controller
             ->allowedSorts(['id', 'created_at', 'verification_type'])
             ->defaultSort('-created_at')
             ->where('verification_type', 'LIKE', "%{$search}%")
-            ->paginate(10);
+            ->get();
 
         $status = [
             "code" => 200,
@@ -109,7 +109,7 @@ class VerificationController extends Controller
 
         $data = [
             "status" => $status,
-            "verification" => $verification,
+            "data" => $verification,
         ];
 
         return response()->json($data);

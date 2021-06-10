@@ -21,7 +21,7 @@ class SocialMediaController extends Controller
                 ->allowedFilters(['sosmed'])
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id', 'created_at', 'sosmed'])
-                ->paginate(10);
+                ->get();
 
         $status = [
             "code" => 200,
@@ -39,7 +39,7 @@ class SocialMediaController extends Controller
 
         $data = [
             "status" => $status,
-            "socialMedia" => $socialMedia,
+            "data" => $socialMedia,
         ];
 
         return response()->json($data);
@@ -53,7 +53,7 @@ class SocialMediaController extends Controller
      */
     public function show($id)
     {
-        $socialMedia = SocialMedia::where('id', $id)->get();
+        $socialMedia = SocialMedia::where('id', $id)->firstOrfail();
 
         $status = [
             "code" => 200,
@@ -71,7 +71,7 @@ class SocialMediaController extends Controller
 
         $data = [
             "status" => $status,
-            "socialMedia" => $socialMedia,
+            "data" => $socialMedia,
         ];
 
         return response()->json($data);
@@ -91,7 +91,7 @@ class SocialMediaController extends Controller
             ->allowedSorts(['id', 'created_at', 'sosmed'])
             ->defaultSort('-created_at')
             ->where('sosmed', 'LIKE', "%{$search}%")
-            ->paginate(10);
+            ->get();
 
         $status = [
             "code" => 200,
@@ -109,7 +109,7 @@ class SocialMediaController extends Controller
 
         $data = [
             "status" => $status,
-            "socialMedia" => $socialMedia,
+            "data" => $socialMedia,
         ];
 
         return response()->json($data);

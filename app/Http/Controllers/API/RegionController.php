@@ -21,7 +21,7 @@ class RegionController extends Controller
                 ->allowedFilters(['kabupaten', 'provinsi'])
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id', 'created_at', 'kabupaten', 'provinsi'])
-                ->paginate(10);
+                ->get();
 
         $status = [
             "code" => 200,
@@ -39,7 +39,7 @@ class RegionController extends Controller
 
         $data = [
             "status" => $status,
-            "region" => $region,
+            "data" => $region,
         ];
 
         return response()->json($data);
@@ -53,7 +53,7 @@ class RegionController extends Controller
      */
     public function show($id)
     {
-        $region = Region::where('id', $id)->get();
+        $region = Region::where('id', $id)->firstOrfail();
 
         $status = [
             "code" => 200,
@@ -71,7 +71,7 @@ class RegionController extends Controller
 
         $data = [
             "status" => $status,
-            "region" => $region,
+            "data" => $region,
         ];
 
         return response()->json($data);
@@ -92,7 +92,7 @@ class RegionController extends Controller
             ->defaultSort('-created_at')
             ->where('provinsi', 'LIKE', "%{$search}%")
             ->orWhere('kabupaten', 'LIKE', "%{$search}%")
-            ->paginate(10);
+            ->get();
 
         $status = [
             "code" => 200,
@@ -110,7 +110,7 @@ class RegionController extends Controller
 
         $data = [
             "status" => $status,
-            "region" => $region,
+            "data" => $region,
         ];
 
         return response()->json($data);

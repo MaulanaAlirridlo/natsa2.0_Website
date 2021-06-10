@@ -21,7 +21,7 @@ class VestigeController extends Controller
                 ->allowedFilters(['vestige'])
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id', 'created_at', 'vestige'])
-                ->paginate(10);
+                ->get();
 
         $status = [
             "code" => 200,
@@ -39,7 +39,7 @@ class VestigeController extends Controller
 
         $data = [
             "status" => $status,
-            "vestige" => $vestige,
+            "data" => $vestige,
         ];
 
         return response()->json($data);
@@ -53,7 +53,7 @@ class VestigeController extends Controller
      */
     public function show($id)
     {
-        $vestige = Vestige::where('id', $id)->get();
+        $vestige = Vestige::where('id', $id)->firstOrfail();
 
         $status = [
             "code" => 200,
@@ -71,7 +71,7 @@ class VestigeController extends Controller
 
         $data = [
             "status" => $status,
-            "vestige" => $vestige,
+            "data" => $vestige,
         ];
 
         return response()->json($data);
@@ -91,7 +91,7 @@ class VestigeController extends Controller
             ->allowedSorts(['id', 'created_at', 'vestige'])
             ->defaultSort('-created_at')
             ->where('vestige', 'LIKE', "%{$search}%")
-            ->paginate(10);
+            ->get();
 
         $status = [
             "code" => 200,
@@ -109,7 +109,7 @@ class VestigeController extends Controller
 
         $data = [
             "status" => $status,
-            "vestige" => $vestige,
+            "data" => $vestige,
         ];
 
         return response()->json($data);
