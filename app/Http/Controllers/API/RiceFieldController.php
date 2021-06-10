@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\RiceField;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -228,6 +229,40 @@ class RiceFieldController extends Controller
             "message" => "Succes",
             "description" => "Sawah berhasil dihapus",
         ];
+
+        $data = [
+            "status" => $status,
+            "riceField" => $riceField,
+        ];
+
+        return response()->json($data);
+    }
+
+    public function search($search){
+        
+        $riceField = RiceField::select(
+            'id', 
+            'title', 
+            'harga',
+            DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from 
+            regions where regions.id = rice_fields.region_id) as regions"), )
+            ->with('photo')
+            ->havingRaw("regions LIKE '%{$search}%'")
+            ->paginate(20);
+        
+        $status = [
+            "code" => 200,
+            "message" => "Succes",
+            "description" => "Data berhasil diambil",
+        ];
+
+        if ($riceField->count() <= 0) {
+            $status = [
+                "code" => 200,
+                "message" => "Succes, No Data show",
+                "description" => "Server merespon, tetapi tidak ada data untuk dikembalikan",
+            ];
+        }
 
         $data = [
             "status" => $status,

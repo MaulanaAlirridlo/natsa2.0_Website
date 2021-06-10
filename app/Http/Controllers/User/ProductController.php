@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\Models\RiceField;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $riceFields = RiceField::select('id', 'title', 'harga')
-            ->with('photo')
+        $riceFields = RiceField::select(
+            'id', 
+            'title', 
+            'harga',)
             ->paginate(20);
 
         // return $riceFields;
@@ -38,4 +42,23 @@ class ProductController extends Controller
             'randomRiceFields' => $randomRiceFields,
         ]);
     }
+
+    public function search(Request $request)
+    {
+        $riceFields = RiceField::select(
+            'id', 
+            'title', 
+            'harga',
+            DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from 
+            regions where regions.id = rice_fields.region_id) as regions"), )
+            ->with('photo')
+            ->havingRaw("regions LIKE '%{$request->search}%'")
+            ->paginate(20);
+
+        // return $riceFields;
+        return view('user.products', [
+            'riceFields' => $riceFields,
+        ]);
+    }
+
 }

@@ -23,7 +23,6 @@ use App\Http\Controllers\Admin\VerificationController;
 |
  */
 
-
 // Route::get('/', function () {
 //     return view('welcome');
 // })->name('welcome')->middleware('guest');
@@ -57,6 +56,7 @@ Route::get('/faq', function () {
 
 //product
 Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products/search/', [ProductController::class, 'search'])->name('products.search');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product');
 
 Route::middleware(['auth'])->group(function () {

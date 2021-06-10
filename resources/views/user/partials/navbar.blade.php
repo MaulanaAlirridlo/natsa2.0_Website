@@ -89,9 +89,14 @@
                 </svg>
             </span>
 
-            <input
-                class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
-                type="text" placeholder="Search">
+            <form action="{{ route('products.search') }}" method="GET">
+                @csrf
+                <input
+                    class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
+                    type="search" name="search" placeholder="Cari di daerah..." value="@isset($_GET['search']){{ $_GET['search'] }}@endisset">
+
+
+            </form>
         </div>
     </div>
 </header>
