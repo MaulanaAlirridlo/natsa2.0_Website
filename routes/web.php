@@ -11,7 +11,11 @@ use App\Http\Controllers\User\BookmarkController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
 use App\Http\Controllers\Admin\VerificationController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\User\MakelarProfileController;
+=======
+use App\Http\Controllers\User\ProfileController;
+>>>>>>> Stashed changes
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +59,8 @@ Route::get('/faq', function () {
     return view('user.faq');
 })->name('faq');
 
+
+
 //product
 Route::prefix('products')->group(function () {
     
@@ -77,11 +83,23 @@ Route::prefix('products')->group(function () {
 Route::middleware(['auth'])->group(function () {
     
     Route::post('/product/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
+    
+    //bookmark
     Route::get('/bookmark', [BookmarkController::class, 'index'])->name('bookmarks');
     Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
+    
+    //Profil
+    Route::get('/Userprofile',[ProfileController::class,'index'])->name('Userprofile');
+    // halaman histori pakai histori controller
 
+    // halaman bookmarks pakai bookmark controller
+    
+    // halaman jual pakai sell controller
+
+    // halaman profile profile controller
 });
 
+<<<<<<< Updated upstream
 //profile makelar
 Route::middleware(['auth'])->group(function () {
     
@@ -92,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+=======
+>>>>>>> Stashed changes
 
 //Admin
 Route::middleware(['auth'])->group(function () {

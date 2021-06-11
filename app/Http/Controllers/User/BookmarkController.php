@@ -24,7 +24,7 @@ class BookmarkController extends Controller
             ->paginate(10);
 
         // return $riceFields;
-        return view('user.bookmarks', [
+        return view('user.profile.bookmarks', [
             'riceFields' => $riceFields,
         ]);
     }

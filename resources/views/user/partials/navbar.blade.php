@@ -19,9 +19,12 @@
 
                 @auth
                 {{-- ke halaman managae account --}}
-                <button class="text-gray-600 focus:outline-none mx-3 sm:mx-2">
-                    <i class="fas fa-user"></i>
-                </button>
+                <a href="{{route('Userprofile')}}">
+                    
+                    <button class="text-gray-600 focus:outline-none mx-3 sm:mx-2">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </a>
 
                 {{-- ke halaman bookmark --}}
                 <a href="{{ route('bookmarks') }}">
