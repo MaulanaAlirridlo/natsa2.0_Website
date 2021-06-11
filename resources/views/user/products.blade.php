@@ -41,6 +41,8 @@ NATSA
         </div>
         @endforeach
 
+        {{ $riceFields->links() }}
+
 
     </div>
 

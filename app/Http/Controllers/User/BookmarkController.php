@@ -18,10 +18,10 @@ class BookmarkController extends Controller
     {
 
         $riceFields = RiceField::join('bookmarks', 'rice_fields.id', '=' ,'bookmarks.rice_field_id')
-            ->select('rice_fields.id', 'rice_fields.title', 'rice_fields.harga', 'bookmarks.id as bookmarks_id')
+            ->select('rice_fields.id', 'rice_fields.title', 'rice_fields.harga', 'rice_fields.user_id', 'bookmarks.id as bookmarks_id')
             ->where('bookmarks.user_id', auth()->user()->id)
-            ->with('photo')
-            ->paginate(10);
+            ->with('photo', 'user')
+            ->paginate(5);
 
         // return $riceFields;
         return view('user.profile.bookmarks', [

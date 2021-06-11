@@ -4,20 +4,24 @@
 
 @section('body')
 
-    <div class="container flex w-full justify-content-center justify-items-center border">
-        
-        <div class="md:grid-cols-4 grid grid-cols-1 gap-4">
-            
-           @include('user.partials.navbarProfile')
+<div class="container mx-auto px-6">
 
-            <div class="col-span-3 bg-cool-gray-500">
-                <h1>NAMA : NAUFAL FARROS </h1>
-                <h1> ALAMAT : Lorem ipsum dolor sit amet consectetur, adipisicing elit. Libero, eius nisi. Illo rerum, sit autem ullam placeat dicta incidunt accusantium labore assumenda minima optio repellendus nemo nulla soluta odit illum.</h1>
+    <h3 class="text-gray-700 text-2xl font-medium">Bookmark</h3>
+    <div class="flex flex-col md:flex-row mt-8">
 
-            </div>
+        <div class="w-full md:w-1/2 order-1 flex flex-none md:flex-col md:justtify-end">
+
+            @include("user.partials.navbarProfile")
+
+        </div>
+
+        <div class="w-full mb-8 flex-shrink-0 order-2 md:w-1/2 md:mb-0 md:order-2">
+
+            Disini semestinya ada history penjelajahan
 
         </div>
 
     </div>
+</div>
 
 @endsection

@@ -11,11 +11,8 @@ use App\Http\Controllers\User\BookmarkController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
 use App\Http\Controllers\Admin\VerificationController;
-<<<<<<< Updated upstream
 use App\Http\Controllers\User\MakelarProfileController;
-=======
 use App\Http\Controllers\User\ProfileController;
->>>>>>> Stashed changes
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +86,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
     
     //Profil
-    Route::get('/Userprofile',[ProfileController::class,'index'])->name('Userprofile');
+    Route::get('/user-profile', [ProfileController::class,'index'])->name('user.profile');
+
     // halaman histori pakai histori controller
 
     // halaman bookmarks pakai bookmark controller
@@ -99,19 +97,12 @@ Route::middleware(['auth'])->group(function () {
     // halaman profile profile controller
 });
 
-<<<<<<< Updated upstream
 //profile makelar
 Route::middleware(['auth'])->group(function () {
     
     Route::get('users/{user:email}', [MakelarProfileController::class, 'index'])->name('makelar.profile');
 
 });
-
-
-
-
-=======
->>>>>>> Stashed changes
 
 //Admin
 Route::middleware(['auth'])->group(function () {
