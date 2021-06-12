@@ -18,12 +18,11 @@ class RiceFieldController extends Controller
     public function index()
     {
         $riceField = QueryBuilder::for(RiceField::class) 
-                ->allowedFilters(['title','harga','luas','alamat',
-                                    'sertifikasi','tipe','vestige_id',
-                                    'irrigation_id','region_id',
-                                    'verification_id'])
+                ->allowedFilters(['id', 'title', 'harga'])
+                ->select('id', 'title', 'harga')
+                ->with('photo')
                 ->defaultSort('-created_at')
-                ->allowedSorts(['id','title','harga','luas'])
+                ->allowedSorts(['id','title','harga'])
                 ->paginate(10);
 
         $status = [
