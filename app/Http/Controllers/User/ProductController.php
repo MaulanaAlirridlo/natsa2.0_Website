@@ -31,6 +31,8 @@ class ProductController extends Controller
                 'region', 'verification', 'photo'])
             ->firstOrFail();
 
+        views($riceField)->record();
+
         $randomRiceFields = RiceField::select('id', 'title', 'harga')
             ->with('photo')
             ->limit(4)

@@ -12,10 +12,13 @@ use App\Models\Verification;
 use App\Models\RiceFieldPhoto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use CyrildeWit\EloquentViewable\Contracts\Viewable;
 
-class RiceField extends Model
+class RiceField extends Model implements Viewable
 {
     use HasFactory;
+    use InteractsWithViews;
 
     protected $fillable = [
         'title',

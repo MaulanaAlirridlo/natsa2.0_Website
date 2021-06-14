@@ -81,26 +81,34 @@ NATSA
         <h3 class="text-gray-600 text-2xl font-medium">Sawah Paling Populer</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
-            {{-- @foreach ($riceFields as $riceField)
+            @foreach ($popularRiceFields as $popularRiceField)
+            
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
-                    style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
-                    <button
-                        class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
-                        </svg>
-                    </button>
+                    style="background-image: url('{{ '/storage/'.$popularRiceField->photo->photo_path }}')">
+                    <form action="{{ route('product.bookmark', $popularRiceField->id) }}" method="POST">
+                        <button
+                            class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                            title="bookmark" type="submit">
+                            @csrf
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </form>
                 </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">{{ $riceField->title }}</h3>
-                    <span class="text-gray-500 mt-2">Rp{{ $riceField->harga }}</span>
-                </div>
+                <a href="{{ route('product', $popularRiceField) }}">
+    
+    
+                    <div class="px-5 py-3">
+                        <h3 class="text-gray-700 uppercase">{{ $popularRiceField->title }}</h3>
+                        <span class="text-gray-500 mt-2">Rp{{ $popularRiceField->harga }}</span>
+                        <br>
+                        <span class="text-gray-500 mt-2">{{ views($popularRiceField)->count() }}x dilihat</span>
+                    </div>
+                </a>
             </div>
-            @endforeach --}}
+            
+            @endforeach
 
         </div>
     </div>
@@ -111,24 +119,32 @@ NATSA
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
             @foreach ($latestRiceFields as $latestRiceField)
+            
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
                     style="background-image: url('{{ '/storage/'.$latestRiceField->photo->photo_path }}')">
-                    <button
-                        class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
-                        </svg>
-                    </button>
+                    <form action="{{ route('product.bookmark', $latestRiceField->id) }}" method="POST">
+                        <button
+                            class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                            title="bookmark" type="submit">
+                            @csrf
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </form>
                 </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">{{ $latestRiceField->title }}</h3>
-                    <span class="text-gray-500 mt-2">Rp{{ $latestRiceField->harga }}</span>
-                </div>
+                <a href="{{ route('product', $latestRiceField) }}">
+    
+    
+                    <div class="px-5 py-3">
+                        <h3 class="text-gray-700 uppercase">{{ $latestRiceField->title }}</h3>
+                        <span class="text-gray-500 mt-2">Rp{{ $latestRiceField->harga }}</span>
+                        <br>
+                        <span class="text-gray-500 mt-2">{{ views($latestRiceField)->count() }}x dilihat</span>
+                    </div>
+                </a>
             </div>
+            
             @endforeach
 
         </div>
@@ -138,26 +154,34 @@ NATSA
         <h3 class="text-gray-600 text-2xl font-medium">Sawah Dijual Paling Populer</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
-            {{-- @foreach ($riceFields as $riceField)
+            @foreach ($popularSellRiceFields as $popularSellRiceField)
+            
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
-                    style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
-                    <button
-                        class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
-                        </svg>
-                    </button>
+                    style="background-image: url('{{ '/storage/'.$popularSellRiceField->photo->photo_path }}')">
+                    <form action="{{ route('product.bookmark', $popularSellRiceField->id) }}" method="POST">
+                        <button
+                            class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                            title="bookmark" type="submit">
+                            @csrf
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </form>
                 </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">{{ $riceField->title }}</h3>
-                    <span class="text-gray-500 mt-2">Rp{{ $riceField->harga }}</span>
-                </div>
+                <a href="{{ route('product', $popularSellRiceField) }}">
+    
+    
+                    <div class="px-5 py-3">
+                        <h3 class="text-gray-700 uppercase">{{ $popularSellRiceField->title }}</h3>
+                        <span class="text-gray-500 mt-2">Rp{{ $popularSellRiceField->harga }}</span>
+                        <br>
+                        <span class="text-gray-500 mt-2">{{ views($popularSellRiceField)->count() }}x dilihat</span>
+                    </div>
+                </a>
             </div>
-            @endforeach --}}
+            
+            @endforeach
 
         </div>
     </div>
@@ -166,26 +190,35 @@ NATSA
         <h3 class="text-gray-600 text-2xl font-medium">Sawah Disewakan Paling Populer</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
-            {{-- @foreach ($riceFields as $riceField)
+            @foreach ($popularRentRiceFields as $popularRentRiceField)
+            
             <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+
                 <div class="flex items-end justify-end h-56 w-full bg-cover"
-                    style="background-image: url('{{ asset('img/zetong-li-soRA0cugtHI-unsplash.jpg') }}')">
-                    <button
-                        class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
-                            </path>
-                        </svg>
-                    </button>
+                    style="background-image: url('{{ '/storage/'.$popularRentRiceField->photo->photo_path }}')">
+                    <form action="{{ route('product.bookmark', $popularRentRiceField->id) }}" method="POST">
+                        <button
+                            class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                            title="bookmark" type="submit">
+                            @csrf
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </form>
                 </div>
-                <div class="px-5 py-3">
-                    <h3 class="text-gray-700 uppercase">{{ $riceField->title }}</h3>
-                    <span class="text-gray-500 mt-2">Rp{{ $riceField->harga }}</span>
-                </div>
+                <a href="{{ route('product', $popularRentRiceField) }}">
+    
+    
+                    <div class="px-5 py-3">
+                        <h3 class="text-gray-700 uppercase">{{ $popularRentRiceField->title }}</h3>
+                        <span class="text-gray-500 mt-2">Rp{{ $popularRentRiceField->harga }}</span>
+                        <br>
+                        <span class="text-gray-500 mt-2">{{ views($popularRentRiceField)->count() }}x dilihat</span>
+                    </div>
+                </a>
             </div>
-            @endforeach --}}
+            
+            @endforeach
+
 
         </div>
     </div>

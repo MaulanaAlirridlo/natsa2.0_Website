@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\RiceField;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -20,10 +19,33 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->limit(4)->get();
 
-        // return $latestRiceFields;
+        $popularRiceFields = RiceField::select('id', 'title', 'harga')
+            ->with('photo')
+            ->orderByViews()
+            ->orderBy('created_at', 'desc')
+            ->limit(4)->get();
+
+        $popularSellRiceFields = RiceField::select('id', 'title', 'harga')
+            ->where('tipe', 'jual')
+            ->with('photo')
+            ->orderByViews()
+            ->orderBy('created_at', 'desc')
+            ->limit(4)->get();
+
+        $popularRentRiceFields = RiceField::select('id', 'title', 'harga')
+            ->where('tipe', 'sewa')
+            ->with('photo')
+            ->orderByViews()
+            ->orderBy('created_at', 'desc')
+            ->limit(4)->get();
+
+        // return $popularRentRiceFields;
 
         return view('user.index', [
             'latestRiceFields' => $latestRiceFields,
+            'popularRiceFields' => $popularRiceFields,
+            'popularSellRiceFields' => $popularSellRiceFields,
+            'popularRentRiceFields' => $popularRentRiceFields,
         ]);
     }
 }
