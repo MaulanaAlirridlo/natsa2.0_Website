@@ -96,16 +96,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
         
         $this->validate($request, [
             'name' => 'required|max:255',
         ]);
 
-        $user->update([
+        auth()->user()->update([
             'name' => $request->name,
         ]);
+        
+        $user = auth()->user();
 
         $status = [
             "code" => 200,
@@ -128,7 +130,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy()
     {
         auth()->user()->tokens()->delete();
 

@@ -98,11 +98,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //profile makelar
-Route::middleware(['auth'])->group(function () {
-    
-    Route::get('users/{user:email}', [MakelarProfileController::class, 'index'])->name('makelar.profile');
-
-});
+Route::get('users/{user:name}', [MakelarProfileController::class, 'index'])->name('makelar.profile');
 
 //Admin
 Route::middleware(['auth'])->group(function () {

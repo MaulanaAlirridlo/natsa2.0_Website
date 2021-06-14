@@ -23,22 +23,30 @@ NATSA
 
             <div class="mt-2">
                 <label class="text-gray-700 text-sm" for="alamat">Email:</label>
-                <div class="flex items-center mt-1">
-                    <span class="text-gray-700 text-lg">{{ $user->email }}</span>
-                </div>
+                @auth
+                <span class="text-gray-700 text-lg">
+                    {{ $user->email }}
+                </span>
+                @endauth
+                @guest
+                <span class="text-gray-700 text-sm">
+                    Login untuk melihat email
+                </span>
+                @endguest
             </div>
 
             <div class="mt-2">
                 <label class="text-gray-700 text-sm" for="daerah">Bergabung pada:</label>
                 <div class="flex items-center mt-1">
-                    <span class="text-gray-700 text-lg">{{ $user->created_at }}</span>
+                    <span class="text-gray-700 text-lg">{{ $user->created_at->toDateString() }}</span>
                 </div>
             </div>
 
             <div class="mt-2">
                 <label class="text-gray-700 text-sm" for="count">Social Media:</label>
                 <div class="flex items-center mt-1">
-                    <button class="h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button>
+                    <button
+                        class="h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button>
                     <button class="h-5 w-5 rounded-full bg-teal-600 mr-2 focus:outline-none"></button>
                     <button class="h-5 w-5 rounded-full bg-pink-600 mr-2 focus:outline-none"></button>
                 </div>
