@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Irrigation;
-use App\Models\Region;
-use App\Models\RiceField;
-use App\Models\RiceFieldPhoto;
 use App\Models\User;
-use App\Models\Verification;
+use App\Models\Region;
 use App\Models\Vestige;
-use Illuminate\Http\Request;
+use App\Models\RiceField;
+use App\Models\Irrigation;
 use Illuminate\Support\Str;
+use App\Models\Verification;
+use Illuminate\Http\Request;
+use App\Models\RiceFieldPhoto;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class RiceFieldController extends Controller
 {
@@ -101,28 +102,27 @@ class RiceFieldController extends Controller
             'verification_id' => $request->verification,
         ]);
 
-        if ($request->hasFile('photo')) {
-            //buat nama baru untuk fotonya
-            $files = $request->file('photo');
-            $i = 1;
-            foreach ($files as $file) {
-                $extension = $file->extension();
-                $fileName = $riceField->id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
+        //Proses upload photo
+        //buat nama baru untuk fotonya
+        $files = $request->photo;
+        $i = 1;
+        foreach ($files as $file) {
+            $newFileName = $riceField->id . '-' . $file;
 
-                // simpan foto di server
-                $file->storeAs('/riceFieldPhotos', $fileName, '');
+            // pindah foto ke storage/riceFields
+            Storage::move('riceFieldPhotos/temps/'.$file, 'riceFieldPhotos/'.$newFileName);
 
-                //simpan nama ke database
-                RiceFieldPhoto::create([
-                    'rice_field_id' => $riceField->id,
-                    'photo_path' => 'riceFieldPhotos/' . $fileName,
-                ]);
+            //simpan nama ke database
+            RiceFieldPhoto::create([
+                'rice_field_id' => $riceField->id,
+                'photo_path' => 'riceFieldPhotos/' . $newFileName,
+            ]);
 
-                $i++;
-            }
+            $i++;
         }
 
-        return redirect()->route('admin.riceFields.add');
+
+        return redirect()->route('admin.riceFields');
 
     }
 

@@ -210,9 +210,10 @@
 
                     <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Gambar</span>
-                        <input
+                        {{-- <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            name="photo[]" type="file" multiple required/>
+                            name="photo[]" type="file" multiple required /> --}}
+                        <input class="mt-1" name="photo[]" id="photo" type="file" multiple required />
                     </label>
                 </div>
             </form>
@@ -237,5 +238,30 @@
         </div>
 
     </div>
+
+    @section('script')
+
+    <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[id="photo"]');
+
+        // Create a FilePond instance
+        const pond = FilePond.create(inputElement);
+
+        //setup upload file
+        FilePond.setOptions({
+            server: {
+                url: '/riceField/upload',
+                process: '/add',
+                revert: '/delete',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            }
+        });
+
+    </script>
+
+    @endsection
 
 </x-app-layout>

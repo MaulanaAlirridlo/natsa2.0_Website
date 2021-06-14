@@ -23,6 +23,8 @@
     <script src="{{asset('js/charts-lines.js')}}" defer></script>
     <script src="{{asset('js/charts-pie.js')}}" defer></script>
     <script src="{{asset('js/charts-bars.js')}}" defer></script>
+    
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" /> {{-- filepond --}}
 
     @livewireStyles
     <script>
@@ -51,6 +53,10 @@
 
         @livewireScripts
     </div>
+
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    
+    @yield('script')
 </body>
 
 </html>

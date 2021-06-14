@@ -6,13 +6,14 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\User\ProductController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Admin\VestigeController;
 use App\Http\Controllers\User\BookmarkController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
 use App\Http\Controllers\Admin\VerificationController;
 use App\Http\Controllers\User\MakelarProfileController;
-use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\RiceFieldPhotoUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,5 +191,15 @@ Route::middleware(['auth'])->group(function () {
             Route::view('admin.calendar', 'admin.calendar')->name('calendar');
         });
     });
+
+});
+
+//Upload foto sawah
+Route::prefix('/riceField/upload')->group(function () {
+    
+    Route::post('/add', [RiceFieldPhotoUploadController::class, 'store']);
+
+    Route::delete('/delete', [RiceFieldPhotoUploadController::class, 'destroy']);
+
 
 });
