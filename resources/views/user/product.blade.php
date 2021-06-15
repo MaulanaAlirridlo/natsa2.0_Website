@@ -6,22 +6,25 @@ NATSA
 
 @section('header')
 
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> 
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
 
 <style>
-    .carousel-open:checked + .carousel-item {
+    .carousel-open:checked+.carousel-item {
         position: static;
         opacity: 100;
     }
+
     .carousel-item {
         -webkit-transition: opacity 0.6s ease-out;
         transition: opacity 0.6s ease-out;
     }
-    #carousel-1:checked ~ .control-1,
-    #carousel-2:checked ~ .control-2,
-    #carousel-3:checked ~ .control-3 {
+
+    #carousel-1:checked~.control-1,
+    #carousel-2:checked~.control-2,
+    #carousel-3:checked~.control-3 {
         display: block;
     }
+
     .carousel-indicators {
         list-style: none;
         margin: 0;
@@ -33,10 +36,12 @@ NATSA
         text-align: center;
         z-index: 10;
     }
-    #carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
-    #carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
-    #carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
-        color: #2b6cb0;  /*Set to match the Tailwind colour you want the active one to be */
+
+    #carousel-1:checked~.control-1~.carousel-indicators li:nth-child(1) .carousel-bullet,
+    #carousel-2:checked~.control-2~.carousel-indicators li:nth-child(2) .carousel-bullet,
+    #carousel-3:checked~.control-3~.carousel-indicators li:nth-child(3) .carousel-bullet {
+        color: #2b6cb0;
+        /*Set to match the Tailwind colour you want the active one to be */
     }
 </style>
 @endsection
@@ -47,14 +52,14 @@ NATSA
     <div class="md:flex md:items-center">
         {{-- gambar product --}}
 
-        {{-- <div class="w-full h-64 md:w-1/2 lg:h-96">
+        <div class="w-full h-64 md:w-1/2 lg:h-96">
             <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto"
                 src="{{ '/storage/'.$riceField->photo->photo_path }}" alt="{{ $riceField->title }}">
-        </div> --}}
+        </div>
 
 
         {{-- carousel Foto produk --}}
-        <div class="carousel-inner relative overflow-hidden w-full h-full md:h-1/2 md:w-1/2 ">
+        {{-- <div class="carousel-inner relative overflow-hidden w-full h-full md:h-1/2 md:w-1/2 ">
             <!--Slide 1-->
                 <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
                 <div class="carousel-item absolute opacity-0" style="height:50vh;">
@@ -64,7 +69,7 @@ NATSA
                 </div>
                 <label for="carousel-3" class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
                 <label for="carousel-2" class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
-              
+
             <!--Slide 2-->
                 <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
                 <div class="carousel-item absolute opacity-0" style="height:50vh;">
@@ -97,12 +102,7 @@ NATSA
                 </li>
             </ol>
 
-
-
-        </div>
-
-
-
+        </div> --}}
 
 
         {{-- deskripsi product --}}
@@ -172,13 +172,35 @@ NATSA
             </div> --}}
 
             <div class="flex items-center mt-6">
+                @guest
+
                 <button
                     class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan
                     sawah <i class="far fa-bookmark ml-1"></i></button>
+                @endguest
+
+                @auth
+
+                @if ($riceField->bookmarkedBy(auth()->user()))
+
+                {{-- <form action="{{ route('bookmark.delete', $riceField->bookmarks_id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+
+                </form> --}}
+                <button type="submit" onclick="return confirm('Buang sawah dari bookmark?')"
+                    class="px-8 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-500 focus:outline-none focus:bg-indigo-500">Hapus
+                    Sawah <i class="far fa-bookmark ml-1"></i></button>
+                
+                @else
 
                 <button
-                    class="ml-5 px-8 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-500 focus:outline-none focus:bg-indigo-500">Hapus
-                    Sawah <i class="far fa-bookmark ml-1"></i></button>
+                    class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan
+                    sawah <i class="far fa-bookmark ml-1"></i></button>
+                    
+                @endif
+
+                @endauth
             </div>
 
         </div>
@@ -186,15 +208,15 @@ NATSA
 
     <hr class="mt-10 mb-3">
 
-    {{-- detail product --}}
+    {{-- detail Makelar --}}
     <div class="md:flex md:items-center">
-        {{-- gambar product --}}
+        {{-- avatar makelar --}}
         <div class="w-full h-64 md:w-1/2 lg:h-96">
             <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto"
                 src="{{ $riceField->user->profile_photo_url }}" alt="{{ $riceField->user->name }}">
         </div>
 
-        {{-- deskripsi product --}}
+        {{-- data diri makelar --}}
         <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
             <h3 class="text-gray-700 uppercase text-lg">{{ $riceField->user->name }}</h3>
 
