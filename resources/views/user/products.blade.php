@@ -146,9 +146,11 @@ NATSA
 
                 
 
-
+                
             </div>
-
+                <div>
+                    <Button type="" class="bg-teal-300 w-32 h-10 rounded-md text-xl font-thin">Apply</Button>
+                </div>
         </div>
 
 
