@@ -89,6 +89,8 @@ Route::middleware(['auth'])->group(function () {
     //Profil
     Route::get('/user-profile', [ProfileController::class,'index'])->name('user.profile');
 
+
+
     // halaman histori pakai histori controller
 
     // halaman bookmarks pakai bookmark controller
@@ -96,6 +98,9 @@ Route::middleware(['auth'])->group(function () {
     // halaman jual pakai sell controller
 
     // halaman profile profile controller
+    Route::get('/profile', function () {
+        return view('user.profile.profile');
+    })->name('profile');
 });
 
 //profile makelar

@@ -36,11 +36,11 @@ NATSA
     <div class="my-2">
 
         <div class=" flex justify-between ">
-            <button type="button" id="filter-btn"  class=" bg-gray-100 rounded-lg hover:bg-gray-300 font-serif w-20" data-toggle="collapse" data-target="#filters">Filters <i class="fa fa-filter"></i></button>
+            <button type="button" id="filter-btn"  class=" rounded-lg hover:bg-gray-100 font-serif w-20 shadow-outline-teal" data-toggle="collapse" data-target="#filters">Filters <i class="fa fa-filter"></i></button>
                 {{-- Urut --}}
                 <div class="hidden md:block">
                     <label for="urut-berdasar" class="text-gray-500">Urut berdasar : </label>
-                    <select name="" id="urut-berdasar" class="h-10 border border-gray-400 rounded-lg text-gray-600">
+                    <select name="" id="urut-berdasar" class="h-10 border border-gray-400 rounded-lg text-gray-600  shadow-outline">
                         <option value="--urut berdasar--">--urut berdasar--</option>
                         <option value="daerah">daerah</option>
                         <option value="harga">harga</option>
