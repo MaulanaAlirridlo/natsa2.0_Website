@@ -31,28 +31,37 @@ NATSA
 
             {{-- Form sorting --}}
             <div>
-                <select class="form-select text-gray-700 mt-1 block w-full" name="sort" id="sort">
-                    <option>Urut Berdasarkan</option>
-                    <option>DC</option>
-                    <option>MH</option>
-                    <option>MD</option>
-                </select>
+                <form action="{{ route('products') }}">
+                    <select class="form-select text-gray-700 mt-1 block w-full" name="sort" id="sort"
+                        onchange="this.form.submit();">
+                        <option value="">Urut Berdasarkan</option>
+                        <option value="harga">Harga up</option>
+                        <option value="-harga">Harga down</option>
+                        <option value="luas">Luas up</option>
+                        <option value="-luas">Luas down</option>
+                    </select>
+                </form>
+
             </div>
         </div>
 
         <div id="filter-menu">
 
-            <form action="{{ route('admin.regions.search') }}" method="GET" id="regionFilter">
+            <form action="{{ route('products') }}" method="GET" id="regionFilter">
                 <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
 
                     <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
                         <div>
                             <label class="block text-sm mt-4">
                                 <span class="text-gray-700 dark:text-gray-400">Jenis sawah</span>
-                                <select name="sort" id="sort"
+                                <select name="tipe" id="tipe"
                                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
                                     <option value="">---</option>
+                                    <option @isset($_GET['tipe']) @if ($_GET['tipe']=='jual' ) selected
+                                        @endif @endisset value="jual">Dijual</option>
+                                    <option @isset($_GET['tipe']) @if ($_GET['tipe']=='sewa' ) selected
+                                        @endif @endisset value="sewa">Disewakan</option>
 
                                 </select>
                             </label>
@@ -61,16 +70,28 @@ NATSA
                         <div>
                             <label class="block text-sm mt-4">
                                 <span class="text-gray-700 dark:text-gray-400">Sertifikasi</span>
-                                <select name="order" id="order"
+                                <select name="sertifikasi" id="sertifikasi"
                                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                     <option value="">---</option>
-
+                                    <option @isset($_GET['sertifikasi']) 
+                                        @if ($_GET['sertifikasi']=='shm' ) selected @endif @endisset value="shm">
+                                        SHM</option>
+                                    <option @isset($_GET['sertifikasi']) 
+                                        @if ($_GET['sertifikasi']=='sgb' ) selected @endif @endisset value="sgb">
+                                        SGB</option>
+                                    <option @isset($_GET['sertifikasi']) 
+                                        @if ($_GET['sertifikasi']=='adat' ) selected @endif @endisset value="adat">
+                                        Adat</option>
+                                    <option @isset($_GET['sertifikasi']) 
+                                        @if ($_GET['sertifikasi']=='lainnya' ) selected @endif @endisset value="lainnya">
+                                        Lainnya</option>
                                 </select>
                             </label>
                         </div>
 
                     </div>
 
+                    {{-- filter harga dan luas --}}
                     <div class="grid grid-cols-1 md:grid-cols-4 md:gap-4">
                         <div>
                             <label class="block text-sm mt-4">
@@ -85,7 +106,7 @@ NATSA
 
                         <div>
                             <label class="block text-sm mt-4">
-                                <span class="text-gray-700 dark:text-gray-400 hidden md:display-block">&nbsp;</span>
+                                <span class="text-gray-700 dark:text-gray-400 hidden md:block">&nbsp;</span>
                                 <input
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     placeholder="Min luas" name="minLuas" type="number" />
@@ -105,7 +126,7 @@ NATSA
 
                         <div>
                             <label class="block text-sm mt-4">
-                                <span class="text-gray-700 dark:text-gray-400 hidden md:display-block">&nbsp;</span>
+                                <span class="text-gray-700 dark:text-gray-400 hidden md:block">&nbsp;</span>
                                 <input
                                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                     placeholder="Min harga" name="minHarga" type="number" />
@@ -113,25 +134,19 @@ NATSA
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-4 md:gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 md:gap-4">
                         <div>
                             <label class="block text-sm mt-4">
                                 <span class="text-gray-700 dark:text-gray-400">Bekas sawah</span>
-                                <select name="sort" id="sort"
+                                <select name="vestige_id" id="vestige_id"
                                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
                                     <option value="">---</option>
-
-                                </select>
-                            </label>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm mt-4">
-                                <span class="text-gray-700 dark:text-gray-400">Tipe penawaran</span>
-                                <select name="order" id="order"
-                                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                    <option value="">---</option>
+                                    @foreach ($vestiges as $vestige)
+                                    <option @isset($_GET['vestige_id']) 
+                                        @if ($_GET['vestige_id']== $vestige->id ) selected @endif @endisset 
+                                        value="{{ $vestige->id }}">{{ $vestige->vestige }}</option>
+                                    @endforeach
 
                                 </select>
                             </label>
@@ -140,10 +155,14 @@ NATSA
                         <div>
                             <label class="block text-sm mt-4">
                                 <span class="text-gray-700 dark:text-gray-400">Jenis Irigasi</span>
-                                <select name="order" id="order"
+                                <select name="irrigation_id" id="irrigation_id"
                                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                     <option value="">---</option>
-
+                                    @foreach ($irrigations as $irrigation)
+                                    <option @isset($_GET['irrigation_id']) 
+                                        @if ($_GET['irrigation_id']== $irrigation->id ) selected @endif @endisset
+                                        value="{{ $irrigation->id }}">{{ $irrigation->irrigation }}</option>
+                                    @endforeach
                                 </select>
                             </label>
                         </div>
@@ -151,10 +170,15 @@ NATSA
                         <div>
                             <label class="block text-sm mt-4">
                                 <span class="text-gray-700 dark:text-gray-400">Jenis Verifikasi</span>
-                                <select name="order" id="order"
+                                <select name="verification_id" id="verification_id"
                                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                     <option value="">---</option>
-
+                                    @foreach ($verifications as $verification)
+                                    <option @isset($_GET['verification_id']) 
+                                        @if ($_GET['verification_id']== $verification->id ) selected @endif @endisset
+                                        value="{{ $verification->id }}">{{ $verification->verification_type }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </label>
                         </div>
@@ -310,8 +334,6 @@ NATSA
             </a>
         </div>
         @endforeach
-
-        {{ $riceFields->links() }}
 
     </div>
 
