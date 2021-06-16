@@ -20,6 +20,9 @@ class VerificationController extends Controller
 
     public function search(Request $request)
     {
+        $this->validate($request, [
+            'search' => ['max:100','regex:/^[\pL\s\-]+$/u'],
+        ]);
 
         $search = Str::of($request->search)->trim();
         $sort = (!is_null($request->sort)) ? $request->sort : 'created_at';
@@ -51,8 +54,8 @@ class VerificationController extends Controller
     {
 
         $this->validate($request, [
-            'verification_type' => 'required|max:150',
-            'desc' => 'required|max:254',
+            'verification_type' => ['required','max:150','string','regex:/^[\pL\s\-]+$/u'],
+            'desc' => ['required','max:254','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         Verification::create([
@@ -75,8 +78,8 @@ class VerificationController extends Controller
     public function put(Verification $verification, Request $request)
     {
         $this->validate($request, [
-            'verification_type' => 'required|max:150',
-            'desc' => 'required|max:254',
+            'verification_type' => ['required','max:150','string','regex:/^[\pL\s\-]+$/u'],
+            'desc' => ['required','max:254','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         $verification->where('id', $verification->id)

@@ -6,6 +6,7 @@ use App\Models\Region;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class RegionController extends Controller
 {
@@ -20,6 +21,9 @@ class RegionController extends Controller
 
     public function search(Request $request)
     {
+        $this->validate($request, [
+            'search' => ['max:100','regex:/^[\pL\s\-]+$/u'],
+        ]);
 
         $search = Str::of($request->search)->trim();
         $sort = (!is_null($request->sort)) ? $request->sort : 'created_at' ;
@@ -51,8 +55,8 @@ class RegionController extends Controller
     {
 
         $this->validate($request, [
-            'provinsi' => 'required|max:100',
-            'kabupaten' => 'required|max:100',
+            'provinsi' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
+            'kabupaten' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         Region::create([
@@ -75,8 +79,8 @@ class RegionController extends Controller
     public function put(Region $region, Request $request)
     {
         $this->validate($request, [
-            'provinsi' => 'required|max:100',
-            'kabupaten' => 'required|max:100',
+            'provinsi' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
+            'kabupaten' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         $region->where('id', $region->id)

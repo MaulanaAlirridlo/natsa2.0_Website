@@ -16,7 +16,7 @@
                         <span class="text-gray-700 dark:text-gray-400">Jenis Verifikasi</span>
                         <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Verifikasi" name="verification_type" type="text" required maxlength="150"
+                            placeholder="Verifikasi" name="verification_type" type="text" required maxlength="150" value="{{ old('verification_type') }}"
                             autofocus />
                         @error('verification_type')
                         <span class="text-xs text-red-600 dark:text-red-400">
@@ -29,7 +29,7 @@
                         <span class="text-gray-700 dark:text-gray-400">Deskripsi</span>
                         <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Deskripsi" name="desc" type="text" required maxlength="254" />
+                            placeholder="Deskripsi" name="desc" type="text" required maxlength="254" value="{{ old('desc') }}"/>
                         @error('desc')
                         <span class="text-xs text-red-600 dark:text-red-400">
                             {{ $message }}

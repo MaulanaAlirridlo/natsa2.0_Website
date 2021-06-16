@@ -39,13 +39,39 @@
                     </label>
 
                     <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">Username</span>
+                        <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            placeholder="Username" name="username" type="text" required autofocus maxlength="50"
+                            value="{{ old('username') }}" />
+                        @error('username')
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </label>
+
+                    <label class="block text-sm mt-4">
+                        <span class="text-gray-700 dark:text-gray-400">KTP</span>
+                        <input
+                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            placeholder="KTP" name="ktp" type="text" required autofocus maxlength="16"
+                            value="{{ old('ktp') }}" />
+                        @error('ktp')
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </label>
+
+                    <label class="block text-sm mt-4">
                         <span class="text-gray-700 dark:text-gray-400">Role</span>
                         <select name="role" id="role" required
                             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                             <option value="">---</option>
-                            <option value="dev">Dev</option>
-                            <option value="admin">Admin</option>
-                            <option value="user">User</option>
+                            <option @if (old('role') == 'dev') selected @endif value="dev">Dev</option>
+                            <option @if (old('role') == 'admin') selected @endif value="admin">Admin</option>
+                            <option @if (old('role') == 'user') selected @endif value="user">User</option>
                         </select>
                         @error('role')
                         <span class="text-xs text-red-600 dark:text-red-400">

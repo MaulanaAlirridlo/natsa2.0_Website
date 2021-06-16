@@ -20,6 +20,9 @@ class SocialMediaController extends Controller
 
     public function search(Request $request)
     {
+        $this->validate($request, [
+            'search' => ['max:100','regex:/^[\pL\s\-]+$/u'],
+        ]);
 
         $search = Str::of($request->search)->trim();
         $sort = (!is_null($request->sort)) ? $request->sort : 'created_at';
@@ -50,7 +53,7 @@ class SocialMediaController extends Controller
     {
 
         $this->validate($request, [
-            'sosmed' => 'required|max:100',
+            'sosmed' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         $sosmed = SocialMedia::create([
@@ -90,7 +93,7 @@ class SocialMediaController extends Controller
     public function put(SocialMedia $socialMedia, Request $request)
     {
         $this->validate($request, [
-            'sosmed' => 'required|max:100',
+            'sosmed' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         $socialMedia->where('id', $socialMedia->id)

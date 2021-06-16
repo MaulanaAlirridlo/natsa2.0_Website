@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,6 +22,9 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
+        $this->validate($request, [
+            'search' => ['max:100','regex:/^[\pL\s\-]+$/u'],
+        ]);
 
         $search = Str::of($request->search)->trim();
         $sort = (!is_null($request->sort)) ? $request->sort : 'created_at';
@@ -53,15 +57,19 @@ class UserController extends Controller
     {
 
         $this->validate($request, [
-            'name' => 'required|max:150',
-            'email' => 'required|max:150',
-            'password' => 'required|max:13|confirmed',
+            'name' => ['required', 'string', 'max:150', 'regex:/^[\pL\s\-]+$/u'],
+            'email' => ['required', 'string', 'email', 'max:150', 'unique:users'],
+            'username' => ['required', 'string', 'max:50', 'unique:users', 'alpha_dash'],
+            'ktp' => ['required', 'numeric', 'digits:16', 'unique:users'],
+            'password' => ['required','max:13','confirmed'],
             'role' => 'required',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
+            'ktp' => $request->ktp,
             'password' => Hash::make($request->password),
             'role' => $request->role,
 
@@ -81,9 +89,14 @@ class UserController extends Controller
 
     public function put(User $user, Request $request)
     {
+        // return $user;
+        $data = $request->toArray();
+
         $this->validate($request, [
-            'name' => 'required|max:150',
-            'email' => 'required|max:150',
+            'name' => ['required', 'string', 'max:150', 'regex:/^[\pL\s\-]+$/u'],
+            'email' => ['required', 'string', 'email', 'max:150', Rule::unique('users')->ignore($user->id)],
+            'username' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id), 'alpha_dash'],
+            'ktp' => ['required', 'numeric', 'digits:16', Rule::unique('users')->ignore($user->id)],
             'role' => 'required',
         ]);
 
@@ -91,6 +104,8 @@ class UserController extends Controller
             ->update([
                 'name' => $request->name,
                 'email' => $request->email,
+                'username' => $request->username,
+                'ktp' => $request->ktp,
                 'role' => $request->role,
             ]);
 

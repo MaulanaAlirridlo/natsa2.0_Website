@@ -21,7 +21,7 @@
                             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                             <option value="">---</option>
                             @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option @if (old('pemilik') == $user->id) selected @endif value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
 
@@ -39,7 +39,7 @@
                             placeholder="Judul" name="title" type="text" required maxlength="100"
                             value="{{ old('title') }}" />
 
-                        @error('pemilik')
+                        @error('title')
                         <span class="text-xs text-red-600 dark:text-red-400">
                             {{ $message }}
                         </span>
@@ -126,7 +126,7 @@
                             <span class="text-gray-700 dark:text-gray-400">Maps</span>
                             <input
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                placeholder="maps" name="maps" type="text" required maxlength="254"
+                                placeholder="maps" name="maps" type="text" required maxlength="100"
                                 value="{{ old('maps') }}" />
                             @error('maps')
                             <span class="text-xs text-red-600 dark:text-red-400">
@@ -140,10 +140,10 @@
                             <select name="sertifikasi" id="sertifikasi" required
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
-                                <option value="shm">SH</option>
-                                <option value="sgb">SGB</option>
-                                <option value="adat">Adat</option>
-                                <option value="lainnya">Lainnya</option>
+                                <option @if (old('sertifikasi') == 'shm') selected @endif value="shm">SHM</option>
+                                <option @if (old('sertifikasi') == 'sgb') selected @endif value="sgb">SGB</option>
+                                <option @if (old('sertifikasi') == 'adat') selected @endif value="adat">Adat</option>
+                                <option @if (old('sertifikasi') == 'lainnya') selected @endif value="lainnya">Lainnya</option>
                             </select>
                         </label>
 
@@ -152,8 +152,8 @@
                             <select name="tipe" id="tipe" required
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
-                                <option value="jual">Jual</option>
-                                <option value="sewa">Sewa</option>
+                                <option @if (old('tipe') == 'jual') selected @endif value="jual">Jual</option>
+                                <option @if (old('tipe') == 'sewa') selected @endif value="sewa">Sewa</option>
                             </select>
                         </label>
 
@@ -165,7 +165,8 @@
                             class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                             <option value="">---</option>
                             @foreach ($regions as $region)
-                            <option value="{{ $region->id }}">{{ $region->provinsi }}, {{ $region->kabupaten }}</option>
+                            <option @if (old('region') == $region->id) selected @endif 
+                                value="{{ $region->id }}">{{ $region->provinsi }}, {{ $region->kabupaten }}</option>
                             @endforeach
                         </select>
                     </label>
@@ -178,7 +179,8 @@
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
                                 @foreach ($vestiges as $vestige)
-                                <option value="{{ $vestige->id }}">{{ $vestige->vestige }}</option>
+                                <option @if (old('vestige') == $vestige->id) selected @endif
+                                    value="{{ $vestige->id }}">{{ $vestige->vestige }}</option>
                                 @endforeach
                             </select>
                         </label>
@@ -189,7 +191,8 @@
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
                                 @foreach ($irrigations as $irrigation)
-                                <option value="{{ $irrigation->id }}">{{ $irrigation->irrigation }}</option>
+                                <option @if (old('irrigation') == $irrigation->id) selected @endif
+                                    value="{{ $irrigation->id }}">{{ $irrigation->irrigation }}</option>
                                 @endforeach
                             </select>
                         </label>
@@ -201,7 +204,8 @@
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
                                 @foreach ($verifications as $verification)
-                                <option value="{{ $verification->id }}">{{ $verification->verification_type }}</option>
+                                <option @if (old('verification') == $verification->id) selected @endif
+                                    value="{{ $verification->id }}">{{ $verification->verification_type }}</option>
                                 @endforeach
                             </select>
                         </label>
@@ -213,7 +217,7 @@
                         {{-- <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             name="photo[]" type="file" multiple required /> --}}
-                        <input class="mt-1" name="photo[]" id="photo" type="file" multiple required />
+                        <input class="mt-1" name="photo[]" id="photo" type="file" multiple required/>
                     </label>
                 </div>
             </form>

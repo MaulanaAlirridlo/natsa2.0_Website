@@ -16,7 +16,8 @@
                         <span class="text-gray-700 dark:text-gray-400">Provinsi</span>
                         <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Provinsi" name="provinsi" required maxlength="100" />
+                            placeholder="Provinsi" name="provinsi" required maxlength="100"
+                            value="{{ old('provinsi') }}" />
                         @error('provinsi')
                         <span class="text-xs text-red-600 dark:text-red-400">
                             {{ $message }}
@@ -30,7 +31,8 @@
                         </span>
                         <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Kabupaten" name="kabupaten" required maxlength="100" />
+                            placeholder="Kabupaten" name="kabupaten" required maxlength="100"
+                            value="{{ old('kabupaten') }}" />
                         @error('kabupaten')
                         <span class="text-xs text-red-600 dark:text-red-400">
                             {{ $message }}

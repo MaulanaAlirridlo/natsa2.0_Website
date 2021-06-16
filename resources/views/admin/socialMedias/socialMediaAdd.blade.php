@@ -18,7 +18,7 @@
                         <span class="text-gray-700 dark:text-gray-400">Social Media</span>
                         <input
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            placeholder="Social Media" name="sosmed" type="text" required maxlength="100"/>
+                            placeholder="Social Media" name="sosmed" type="text" required maxlength="100" value="{{ old('sosmed') }}"/>
                         @error('sosmed')
                         <span class="text-xs text-red-600 dark:text-red-400">
                             {{ $message }}

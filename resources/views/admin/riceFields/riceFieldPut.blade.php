@@ -38,7 +38,7 @@
                             placeholder="Judul" name="title" type="text" required maxlength="100"
                             value="{{ $riceField->title }}" />
 
-                        @error('pemilik')
+                        @error('title')
                         <span class="text-xs text-red-600 dark:text-red-400">
                             {{ $message }}
                         </span>
@@ -140,10 +140,10 @@
                             <select name="sertifikasi" id="sertifikasi" required
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
-                                <option value="shm">SH</option>
-                                <option value="sgb">SGB</option>
-                                <option value="adat">Adat</option>
-                                <option value="lainnya">Lainnya</option>
+                                <option @if ($riceField->sertifikasi == 'shm') selected @endif value="shm">SHM</option>
+                                <option @if ($riceField->sertifikasi == 'sgb') selected @endif value="sgb">SGB</option>
+                                <option @if ($riceField->sertifikasi == 'adat') selected @endif value="adat">Adat</option>
+                                <option @if ($riceField->sertifikasi == 'lainnya') selected @endif value="lainnya">Lainnya</option>
                             </select>
                         </label>
 
@@ -152,8 +152,8 @@
                             <select name="tipe" id="tipe" required
                                 class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 <option value="">---</option>
-                                <option value="jual">Jual</option>
-                                <option value="sewa">Sewa</option>
+                                <option @if ($riceField->tipe == 'jual') selected @endif value="jual">Jual</option>
+                                <option @if ($riceField->tipe == 'sewa') selected @endif value="sewa">Sewa</option>
                             </select>
                         </label>
 

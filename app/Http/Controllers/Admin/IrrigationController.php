@@ -20,6 +20,9 @@ class IrrigationController extends Controller
 
     public function search(Request $request)
     {
+        $this->validate($request, [
+            'search' => ['max:100','regex:/^[\pL\s\-]+$/u'],
+        ]);
 
         $search = Str::of($request->search)->trim();
         $sort = (!is_null($request->sort)) ? $request->sort : 'created_at';
@@ -50,7 +53,7 @@ class IrrigationController extends Controller
     {
 
         $this->validate($request, [
-            'irrigation' => 'required|max:100',
+            'irrigation' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         irrigation::create([
@@ -72,7 +75,7 @@ class IrrigationController extends Controller
     public function put(irrigation $irrigation, Request $request)
     {
         $this->validate($request, [
-            'irrigation' => 'required|max:100',
+            'irrigation' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
         ]);
 
         $irrigation->where('id', $irrigation->id)

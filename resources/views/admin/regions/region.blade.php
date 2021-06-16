@@ -17,6 +17,11 @@
                             class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                             placeholder="Search" name="search" type="search"
                             value="@isset($_GET['search']){{ $_GET['search'] }}@endisset" />
+                        @error('search')
+                        <span class="text-xs text-red-600 dark:text-red-400">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </label>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -27,8 +32,8 @@
                                     class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
 
                                     <option value="">---</option>
-                                    <option @isset($_GET['sort']) @if ($_GET['sort']=='id' ) selected @endif
-                                        @endisset value="id">ID</option>
+                                    <option @isset($_GET['sort']) @if ($_GET['sort']=='id' ) selected @endif @endisset
+                                        value="id">ID</option>
                                     <option @isset($_GET['sort']) @if ($_GET['sort']=='provinsi' ) selected @endif
                                         @endisset value="provinsi">Provinsi</option>
                                     <option @isset($_GET['sort']) @if ($_GET['sort']=='kabupaten' ) selected @endif
