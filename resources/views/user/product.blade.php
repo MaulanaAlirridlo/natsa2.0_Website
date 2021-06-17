@@ -174,29 +174,35 @@ NATSA
             <div class="flex items-center mt-6">
                 @guest
 
-                <button
-                    class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan
-                    sawah <i class="far fa-bookmark ml-1"></i></button>
+                <form action="{{ route('product.bookmark', $riceField->id) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan
+                        sawah <i class="far fa-bookmark ml-1"></i></button>
+                </form>
                 @endguest
 
                 @auth
 
                 @if ($riceField->bookmarkedBy(auth()->user()))
 
-                {{-- <form action="{{ route('bookmark.delete', $riceField->bookmarks_id) }}" method="POST">
+                <form action="{{ route('product.bookmark.delete', $riceField->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
-
-                </form> --}}
-                <button type="submit" onclick="return confirm('Buang sawah dari bookmark?')"
-                    class="px-8 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-500 focus:outline-none focus:bg-indigo-500">Hapus
-                    Sawah <i class="far fa-bookmark ml-1"></i></button>
-                
+                    <button type="submit" onclick="return confirm('Buang sawah dari bookmark?')"
+                        class="px-8 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-500 focus:outline-none focus:bg-red-500">Hapus
+                        Sawah <i class="far fa-bookmark ml-1"></i></button>
+                    
+                </form>
                 @else
 
-                <button
-                    class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan
-                    sawah <i class="far fa-bookmark ml-1"></i></button>
+                <form action="{{ route('product.bookmark', $riceField->id) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="px-8 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Simpan
+                        sawah <i class="far fa-bookmark ml-1"></i></button>
+                </form>
+
                     
                 @endif
 

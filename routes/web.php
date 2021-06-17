@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
     //bookmark
     Route::get('/bookmark', [BookmarkController::class, 'index'])->name('bookmarks');
     Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
+    Route::delete('/product/bookmark/delete/{id}', [BookmarkController::class, 'destroyFromProduct'])->name('product.bookmark.delete');
     
     //Profil
     Route::get('/user-profile', [ProfileController::class,'index'])->name('user.profile');

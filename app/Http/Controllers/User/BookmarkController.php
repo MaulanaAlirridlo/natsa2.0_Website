@@ -47,14 +47,23 @@ class BookmarkController extends Controller
 
     public function destroy(Bookmark $bookmark){
 
-        // return $bookmark;
-
         if(!$bookmark->ownBy(auth()->user())){
-            return "ini punya mu";
+            return "ini bukan punya mu";
         }
 
         $bookmark->where('id', $bookmark->id)->delete();
 
         return back();
     }
+
+    public function destroyFromProduct(Bookmark $bookmark, $id){
+
+        $bookmark = Bookmark::where('bookmarks.rice_field_id', $id)
+            ->where('bookmarks.user_id', auth()->user()->id)
+            ->delete();
+
+        return back();
+
+    }
+    
 }
