@@ -61,19 +61,19 @@ return [
     |
     */
 
-    // 'home' => RouteServiceProvider::HOME,
-    'home' => function(){
-        if (auth()->user()->role == 'admin' || auth()->user()->role == 'dev') {
-            return route('dashboard');
-        }
+    'home' => RouteServiceProvider::HOME,
+    // 'home' => function(){
+    //     if (auth()->user()->role == 'admin' || auth()->user()->role == 'dev') {
+    //         return route('dashboard');
+    //     }
 
-        if (auth()->user()->role == 'user') {
-            return route('user.home');
-        }
+    //     if (auth()->user()->role == 'user') {
+    //         return route('user.home');
+    //     }
 
-        return route('home');
+    //     return route('home');
 
-    },
+    // },
 
     /*
     |--------------------------------------------------------------------------
@@ -117,7 +117,7 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
-        // Features::emailVerification(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication(),

@@ -17,10 +17,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/admin/dashboard';
+    public const HOME = '/';
 
     /**
-     * If specified, this namespace is automatically applied to your controller routes.
+     * If specified, this namespace is automatically dashboardapplied to your controller routes.
      *
      * In addition, it is set as the URL generator's root namespace.
      *

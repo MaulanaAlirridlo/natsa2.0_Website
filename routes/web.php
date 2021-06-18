@@ -78,7 +78,7 @@ Route::prefix('products')->group(function () {
 });
 
 //bookmark
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     
     Route::post('/product/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
     
@@ -109,11 +109,6 @@ Route::get('users/{user:name}', [MakelarProfileController::class, 'index'])->nam
 
 //Admin
 Route::middleware(['auth'])->group(function () {
-
-    Route::prefix('/user')->middleware('role:user')->group(function () {
-        Route::get('/home', [HomeController::class, 'index'])->name('user.home');
-
-    });
 
     Route::prefix('/admin')->middleware('role:admin')->group(function () {
         //dashboard
