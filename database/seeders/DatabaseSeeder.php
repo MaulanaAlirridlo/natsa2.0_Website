@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\RegionSeeder;
+use Database\Seeders\VestigeSeeder;
 use Database\Seeders\IrrigationSeeder;
+use Database\Seeders\VerificationSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RegionSeeder::class,
             IrrigationSeeder::class,
+            VestigeSeeder::class,
+            VerificationSeeder::class,
         ]);
     }
 }
