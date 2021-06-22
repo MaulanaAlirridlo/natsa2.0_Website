@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\SellController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\Admin\RegionController;
+use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Admin\VestigeController;
@@ -87,21 +89,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/bookmark/delete/{bookmark}', [BookmarkController::class, 'destroy'])->name('bookmark.delete');
     Route::delete('/product/bookmark/delete/{id}', [BookmarkController::class, 'destroyFromProduct'])->name('product.bookmark.delete');
     
-    //Profil
+
+    // halaman histori pakai histori controller
+    Route::get('/user-history', [HistoryController::class, 'index'])->name('user.history');
+
+    // halaman jual pakai sell controller
+    Route::prefix('/user-sell')->group(function () {
+        
+        Route::get('/', [SellController::class, 'index'])->name('user.sell');
+        Route::delete('/{riceField}', [SellController::class, 'destroy'])->name('user.sell.delete');
+        Route::get('/add', [SellController::class, 'showStore'])->name('user.sell.add');
+        Route::post('/', [SellController::class, 'store'])->name('user.sell.store');
+        Route::get('/edit/{riceField}', [SellController::class, 'showPut'])->name('user.sell.edit');
+        Route::put('/{riceField}', [SellController::class, 'put'])->name('user.sell.update');
+
+    });
+
+    // halaman profile profile controller
     Route::get('/user-profile', [ProfileController::class,'index'])->name('user.profile');
 
 
-
-    // halaman histori pakai histori controller
-
-    // halaman bookmarks pakai bookmark controller
-    
-    // halaman jual pakai sell controller
-
-    // halaman profile profile controller
-    Route::get('/profile', function () {
-        return view('user.profile.profile');
-    })->name('profile');
 });
 
 //profile makelar
@@ -196,7 +203,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 //Upload foto sawah
-Route::prefix('/riceField/upload')->group(function () {
+Route::prefix('/riceField/upload')->middleware(['auth'])->group(function () {
     
     Route::post('/add', [RiceFieldPhotoUploadController::class, 'store']);
 

@@ -17,10 +17,14 @@
     {{-- fontawesome css --}}
     <link rel="stylesheet" href="{{ mix('css/style.css') }}" />
 
+    {{-- filepond --}}
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" /> 
+
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 </head>
 
 <body>
+
     <div x-data="{ cartOpen: false , isOpen: false }">
         @include('user.partials.navbar')
 
@@ -31,7 +35,11 @@
 
         @include('user.partials.footer')
     </div>
+
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+
     @yield('script')
+
 </body>
 
 </html>
