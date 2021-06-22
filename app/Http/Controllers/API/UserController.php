@@ -100,11 +100,17 @@ class UserController extends Controller
     {
         
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'name' => ['required', 'string', 'max:150', 'regex:/^[\pL\s\-]+$/u'],
+            'email' => ['required', 'string', 'email', 'max:150', Rule::unique('users')->ignore($user->id)],
+            'username' => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id), 'alpha_dash'],
+            'ktp' => ['required', 'numeric', 'digits:16', Rule::unique('users')->ignore($user->id)],
         ]);
 
         auth()->user()->update([
             'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'ktp' => $request->ktp,
         ]);
         
         $user = auth()->user();
@@ -182,5 +188,11 @@ class UserController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function details(){
+        $user = auth()->user();
+
+        return response()->json(['user' => $user]);
     }
 }

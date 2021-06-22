@@ -13,15 +13,19 @@ class RegisterController extends Controller
     {
         //validasi data
         $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|max:255|confirmed',
+            'name' => ['required', 'string', 'max:150', 'regex:/^[\pL\s\-]+$/u'],
+            'email' => ['required', 'string', 'email', 'max:150', 'unique:users'],
+            'username' => ['required', 'string', 'max:50', 'unique:users', 'alpha_dash'],
+            'ktp' => ['required', 'numeric', 'digits:16', 'unique:users'],
+            'password' => ['required','max:13','confirmed'],
         ]);
 
         //simpan data
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'username' => $request->username,
+            'ktp' => $request->ktp,
             'password' => Hash::make($request->password),
         ]);
 

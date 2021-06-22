@@ -13,8 +13,8 @@ class LoginController extends Controller
     {
         //validasi data
         $this->validate($request, [
-            'email' => 'required|email|max:255',
-            'password' => 'required|max:255',
+            'email' => ['required', 'string', 'email', 'max:150'],
+            'password' => ['required','max:13'],
         ]);
 
         //cek user

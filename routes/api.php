@@ -110,6 +110,18 @@ Route::prefix('users')->group(function () {
         Route::post('/logout', [LogoutController::class, 'store']);
         Route::put('/update', [UserController::class, 'update']);
         Route::delete('/delete', [UserController::class, 'destroy']);
+        Route::get('/details', [UserController::class, 'details']);
+
+    });
+
+});
+
+Route::prefix('user')->group(function () {
+
+    //protected
+    Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('/details', [UserController::class, 'details']);
 
     });
 
