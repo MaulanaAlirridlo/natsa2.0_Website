@@ -1,16 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\BookmarkController;
+use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\LogoutController;
 use App\Http\Controllers\API\RegionController;
-use App\Http\Controllers\API\VestigeController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\RiceFieldController;
-use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\SocialMediaController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VerificationController;
+use App\Http\Controllers\API\VestigeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +91,14 @@ Route::prefix('riceFields')->group(function () {
         Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
         Route::put('/{id}', [RiceFieldController::class, 'update']);
     });
+
+});
+
+Route::middleware(['auth:sanctum'])->prefix('bookmarks')->group(function () {
+
+    Route::get('/', [BookmarkController::class, 'index']);
+    Route::post('/{id}', [BookmarkController::class, 'store']);
+    Route::delete('/{id}', [BookmarkController::class, 'destroy']);
 
 });
 
