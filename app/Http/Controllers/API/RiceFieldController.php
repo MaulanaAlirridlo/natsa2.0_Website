@@ -237,15 +237,29 @@ class RiceFieldController extends Controller
 
     public function search($search){
         
-        $riceField = RiceField::select(
-            'id', 
-            'title', 
-            'harga',
-            DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from 
-            regions where regions.id = rice_fields.region_id) as regions"), )
-            ->with('photo')
-            ->havingRaw("regions LIKE '%{$search}%'")
-            ->paginate(20);
+        $riceField = QueryBuilder::for(RiceField::class) 
+                ->allowedFilters(['id', 'title', 'harga'])
+                ->select(
+                    'id', 
+                    'title', 
+                    'harga',
+                    DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from 
+                    regions where regions.id = rice_fields.region_id) as regions"), )
+                ->havingRaw("regions LIKE '%{$search}%'")
+                ->with('photo')
+                ->defaultSort('-created_at')
+                ->allowedSorts(['id','title','harga'])
+                ->paginate(20);
+
+        // $riceField = RiceField::select(
+        //     'id', 
+        //     'title', 
+        //     'harga',
+        //     DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from 
+        //     regions where regions.id = rice_fields.region_id) as regions"), )
+        //     ->with('photo')
+        //     ->havingRaw("regions LIKE '%{$search}%'")
+        //     ->paginate(20);
         
         $status = [
             "code" => 200,
