@@ -69,7 +69,6 @@ class RiceFieldController extends Controller
             'vestige' => 'required',
             'region' => 'required',
             'irrigation' => 'required',
-            'verification' => 'required',
         ]);
 
         $riceField = RiceField::create([
@@ -85,7 +84,6 @@ class RiceFieldController extends Controller
             'vestige_id' => $request->vestige,
             'region_id' => $request->region,
             'irrigation_id' => $request->irrigation,
-            'verification_id' => $request->verification,
         ]);
 
         $status = [
