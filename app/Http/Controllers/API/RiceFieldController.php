@@ -130,7 +130,8 @@ class RiceFieldController extends Controller
      */
     public function show($id)
     {
-        $riceField = RiceField::where('id', $id)->get();
+        $riceField = RiceField::with('photos')
+            ->where('id', $id)->firstOrfail();
 
         $status = [
             "code" => 200,
@@ -282,4 +283,36 @@ class RiceFieldController extends Controller
 
         return response()->json($data);
     }
+
+    public function product($id){
+        $riceField = RiceField::with('photos')
+            ->where('id', $id)->firstOrfail();
+
+        $randomRiceFields = RiceField::select('id', 'title', 'harga')
+            ->with('photo')
+            ->limit(4)
+            ->inRandomOrder()->get();
+
+        $status = [
+            "code" => 200,
+            "message" => "Succes",
+            "description" => "Data berhasil diambil",
+        ];
+
+        if ($riceField->count() <= 0) {
+            $status = [
+                "code" => 200,
+                "message" => "Succes, No Data show",
+                "description" => "Server merespon, tetapi tidak ada data untuk dikembalikan",
+            ];
+        }
+
+        $data = [
+            "status" => $status,
+            "riceField" => $riceField,
+            "randomRiceFields" => $randomRiceFields,
+        ];
+
+        return response()->json($data);
+        }
 }

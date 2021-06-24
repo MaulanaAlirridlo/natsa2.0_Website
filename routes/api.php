@@ -94,6 +94,9 @@ Route::prefix('riceFields')->group(function () {
 
 });
 
+Route::get('product/{id}', [RiceFieldController::class, 'product']);
+
+
 Route::middleware(['auth:sanctum'])->prefix('bookmarks')->group(function () {
 
     Route::get('/', [BookmarkController::class, 'index']);
