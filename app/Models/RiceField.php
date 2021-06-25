@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Region;
-use App\Models\Vestige;
 use App\Models\Bookmark;
-use App\Models\RiceField;
 use App\Models\Irrigation;
-use App\Models\Verification;
+use App\Models\Region;
+use App\Models\RiceField;
 use App\Models\RiceFieldPhoto;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use CyrildeWit\EloquentViewable\InteractsWithViews;
+use App\Models\User;
+use App\Models\Verification;
+use App\Models\Vestige;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
+use CyrildeWit\EloquentViewable\InteractsWithViews;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class RiceField extends Model implements Viewable
 {
@@ -66,28 +66,32 @@ class RiceField extends Model implements Viewable
     }
 
     //mengambil semua foto
-    public function photos(){
+    public function photos()
+    {
         return $this->hasMany(RiceFieldPhoto::class);
     }
 
     //mengambil satu foto sajah
-    public function photo(){
+    public function photo()
+    {
         return $this->hasOne(RiceFieldPhoto::class);
     }
 
     //untuk menyimpan bookmark
-    public function bookmark(){
+    public function bookmark()
+    {
         return $this->hasMany(Bookmark::class);
     }
 
     //sudah bookmarked
-    public function bookmarkedBy(User $user){
+    public function bookmarkedBy(User $user)
+    {
         return $this->bookmark->contains('user_id', $user->id);
     }
 
     /*
     untuk api
-    */
+     */
     public function getPemilikAttribute()
     {
         return User::where('id', $this->user_id)->get();
@@ -103,7 +107,7 @@ class RiceField extends Model implements Viewable
 
     public function getIrrigationAttribute()
     {
-        $irrigation = Irrigation::where('id', $this->irrigation_id  )
+        $irrigation = Irrigation::where('id', $this->irrigation_id)
             ->select('irrigation')
             ->pluck('irrigation');
         return $irrigation[0];
@@ -114,12 +118,12 @@ class RiceField extends Model implements Viewable
         $region = Region::where('id', $this->region_id);
         $provinsi = $region->select('provinsi')->pluck('provinsi');
         $kabupaten = $region->select('kabupaten')->pluck('kabupaten');
-        return $provinsi[0]. ", " . $kabupaten[0];
+        return $provinsi[0] . ", " . $kabupaten[0];
     }
 
     public function getVerificationAttribute()
     {
-        $verification = Verification::where('id', $this->verification_id  )
+        $verification = Verification::where('id', $this->verification_id)
             ->select('verification_type')
             ->pluck('verification_type');
         return $verification[0];

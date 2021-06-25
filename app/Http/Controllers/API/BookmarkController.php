@@ -47,9 +47,9 @@ class BookmarkController extends Controller
         $riceField = RiceField::where('id', $id)->firstOrfail();
 
         $status = [
-            "code" => 204,
+            "code" => 200,
             "message" => "Succes",
-            "description" => "Sawah berhasil dihapus",
+            "description" => "Sawah berhasil ditandai",
         ];
 
         if ($riceField->bookmarkedBy($request->user())) {
