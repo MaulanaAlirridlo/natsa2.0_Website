@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\RiceField;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\RiceFieldPhoto;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -69,7 +71,10 @@ class RiceFieldController extends Controller
             'vestige' => 'required',
             'region' => 'required',
             'irrigation' => 'required',
+            'photo.*' => ["required", "mimes:png,jpg,jpeg", "max:512"]
+
         ]);
+
 
         $riceField = RiceField::create([
             'title' => $request->title,
@@ -86,6 +91,32 @@ class RiceFieldController extends Controller
             'irrigation_id' => $request->irrigation,
         ]);
 
+        if ($request->hasFile('photo')) {
+
+            //buat nama baru untuk fotonya
+            $files = $request->file('photo');
+            $i = 1;
+
+            foreach ($files as $file) {
+                
+                $extension = $file->extension();
+                $fileName = $riceField->id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
+
+                // simpan foto di server
+                $file->storeAs('/riceFieldPhotos', $fileName, '');
+
+                //simpan nama ke database
+                RiceFieldPhoto::create([
+                    'rice_field_id' => $riceField->id,
+                    'photo_path' => 'riceFieldPhotos/' . $fileName,
+                ]);
+
+                $i++;
+            }
+
+        }
+        
+
         $status = [
             "code" => 201,
             "message" => "Succes",
@@ -96,28 +127,6 @@ class RiceFieldController extends Controller
             "status" => $status,
             "riceField" => $riceField,
         ];
-
-        //Untuk sementara tidak ada upload gambar
-        // if ($request->hasFile('photo')) {
-        //     //buat nama baru untuk fotonya
-        //     $files = $request->file('photo');
-        //     $i = 1;
-        //     foreach ($files as $file) {
-        //         $extension = $file->extension();
-        //         $fileName = $riceField->id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
-
-        //         // simpan foto di server
-        //         $file->storeAs('/riceFieldPhotos', $fileName, '');
-
-        //         //simpan nama ke database
-        //         RiceFieldPhoto::create([
-        //             'rice_field_id' => $riceField->id,
-        //             'photo_path' => 'riceFieldPhotos/' . $fileName,
-        //         ]);
-
-        //         $i++;
-        //     }
-        // }
 
         return response()->json($data);
     }
