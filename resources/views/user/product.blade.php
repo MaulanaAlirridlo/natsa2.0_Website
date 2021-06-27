@@ -145,7 +145,7 @@ NATSA
                 <label class="text-gray-700 text-sm" for="kategori">Kategori:</label>
                 <div class="flex items-center mt-1">
                     <span class="text-gray-700 text-lg">
-                        {{ @$riceField->vestige }}, {{ @$riceField->irrigation }}, {{ @$riceField->verification }}
+                        {{ @$riceField->vestige }}, {{ @$riceField->irrigation }}
                     </span>
                 </div>
             </div>

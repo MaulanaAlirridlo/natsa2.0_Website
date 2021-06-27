@@ -125,13 +125,6 @@
                     </label>
 
 
-                    <label class="block text-sm">
-                        <span class="text-gray-700 dark:text-gray-400">Verifikasi</span>
-                        <input
-                            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                            type="text" disabled value="{{ $riceField->verification }}" />
-                    </label>
-
                 </div>
 
                 <div class="block text-sm my-4">
