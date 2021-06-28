@@ -7,6 +7,7 @@
 <div class="container mx-auto px-6">
 
     <h3 class="text-gray-700 text-2xl font-medium">Bookmark</h3>
+
     <div class="flex flex-col md:flex-row mt-8">
 
         <div class="w-full md:w-1/3 order-1 flex flex-none md:flex-col md:justtify-end">
@@ -20,7 +21,7 @@
             @foreach ($riceFields as $riceField)
             <div class="flex justify-center md:justify-end mb-4">
 
-                <div class="border rounded-md max-w-md w-full px-4 py-3">
+                <div class="border rounded-md w-full px-4 py-3">
 
                     <div class="flex items-center justify-end gap-4">
                         <h3 class="text-gray-700 font-medium"></h3>
