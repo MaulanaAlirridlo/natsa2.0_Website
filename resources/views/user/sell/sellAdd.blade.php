@@ -131,7 +131,6 @@
 
                         <div class="grid grid-cols-2 gap-4 mt-4">
 
-
                             <label class="block text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Sertifikasi</span>
                                 <select name="sertifikasi" id="sertifikasi" required
@@ -199,7 +198,11 @@
 
                         <label class="block text-sm mt-4">
                             <span class="text-gray-700 dark:text-gray-400">Gambar</span>
-                            <input class="mt-1" name="photo[]" id="photo" type="file" multiple required />
+                            <input class="mt-1" name="photo[]" id="photo" type="file" 
+                                data-max-file-size="512KB"
+                                data-max-files="5"    
+                                multiple 
+                                required />
                         </label>
                     </div>
                 </form>
@@ -232,6 +235,22 @@
 @section('script')
 
 <script>
+
+    FilePond.registerPlugin(
+        // encodes the file as base64 data
+        FilePondPluginFileEncode,
+        
+        // validates the size of the file
+        FilePondPluginFileValidateSize,
+        
+        // corrects mobile image orientation
+        FilePondPluginImageExifOrientation,
+        
+        // previews dropped images
+        FilePondPluginImagePreview,
+
+    );
+
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[id="photo"]');
     // Create a FilePond instance
