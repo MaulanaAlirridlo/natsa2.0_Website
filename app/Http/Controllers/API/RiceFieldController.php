@@ -21,8 +21,8 @@ class RiceFieldController extends Controller
     public function index()
     {
         $riceField = QueryBuilder::for(RiceField::class) 
-                ->allowedFilters(['id', 'title', 'harga'])
-                ->select('id', 'title', 'harga')
+                ->allowedFilters(['id', 'title', 'harga', 'user_id'])
+                ->select('id', 'title', 'harga', 'user_id')
                 ->with('photo')
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id','title','harga'])
@@ -33,36 +33,6 @@ class RiceFieldController extends Controller
             "message" => "Succes",
             "description" => "Data berhasil diambil",
         ];
-
-        //record bahwa sawah dilihat
-        views($riceField)->record();
-
-        //simpan sawah di history jika login
-        if(auth()->user()){
-
-            $isItThere = UserHistory::where('user_id', auth()->user()->id)
-            ->where('rice_field_id', $id)->first();
-    
-            $userHistoryTotal = UserHistory::where('user_id', auth()->user()->id)
-                ->get()->count();
-            
-            //simpan sawah kalau belum ada
-            if(!$isItThere){
-    
-                //Hapus history terakhir jika history lebih dari 10
-                if($userHistoryTotal >= 10){
-                    UserHistory::where('user_id', auth()->user()->id)
-                        ->orderBy('id', 'desc')->first()->delete();
-                }
-    
-                UserHistory::create([
-                    "user_id" => auth()->user()->id,
-                    "rice_field_id" => $id,
-                ]);
-                
-            }
-            
-        }
 
         if ($riceField->count() <= 0) {
             $status = [
@@ -170,8 +140,42 @@ class RiceFieldController extends Controller
      */
     public function show($id)
     {
-        $riceField = RiceField::with('photos')
-            ->where('id', $id)->firstOrfail();
+        $riceField = RiceField::where('id', $id)->
+            with(['user', 'vestige', 'irrigation',
+                'region', 'photo'])
+            ->firstOrfail();
+
+        //record bahwa sawah dilihat
+        views($riceField)->record();
+
+        return views($riceField)->count();
+
+        //simpan sawah di history jika login
+        if(auth()->user()){
+
+            $isItThere = UserHistory::where('user_id', auth()->user()->id)
+                ->where('rice_field_id', $id)->first();
+    
+            $userHistoryTotal = UserHistory::where('user_id', auth()->user()->id)
+                ->get()->count();
+            
+            //simpan sawah kalau belum ada
+            if(!$isItThere){
+    
+                //Hapus history terakhir jika history lebih dari 10
+                if($userHistoryTotal >= 10){
+                    UserHistory::where('user_id', auth()->user()->id)
+                        ->orderBy('id', 'desc')->first()->delete();
+                }
+    
+                UserHistory::create([
+                    "user_id" => auth()->user()->id,
+                    "rice_field_id" => $id,
+                ]);
+                
+            }
+            
+        }
 
         $status = [
             "code" => 200,
