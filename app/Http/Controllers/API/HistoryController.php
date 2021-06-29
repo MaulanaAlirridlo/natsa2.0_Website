@@ -14,6 +14,7 @@ class HistoryController extends Controller
         $riceFields = RiceField::join('user_histories', 'rice_fields.id', '=' ,'user_histories.rice_field_id')
             ->select('rice_fields.id', 'rice_fields.title', 'rice_fields.harga', 'rice_fields.user_id', 'user_histories.id as user_histories_id')
             ->where('user_histories.user_id', auth()->user()->id)
+            ->where('ketersediaan', '1')
             ->with('photo', 'user')
             ->paginate(10);
 

@@ -91,6 +91,8 @@ Route::prefix('riceFields')->group(function () {
         Route::post('/', [RiceFieldController::class, 'store']);
         Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
         Route::put('/{id}', [RiceFieldController::class, 'update']);
+        Route::put('/ketersediaan/{id}', [RiceFieldController::class, 'updateKetersediaan']);
+
     });
 
 });

@@ -21,7 +21,7 @@ class RiceFieldController extends Controller
     public function index()
     {
         $riceField = QueryBuilder::for(RiceField::class) 
-                ->allowedFilters(['id', 'title', 'harga', 'user_id'])
+                ->allowedFilters(['id', 'title', 'harga', 'user_id', 'ketersediaan'])
                 ->select('id', 'title', 'harga', 'user_id')
                 ->with('photo')
                 ->defaultSort('-created_at')
@@ -140,8 +140,8 @@ class RiceFieldController extends Controller
      */
     public function show($id)
     {
-        $riceField = RiceField::where('id', $id)->
-            with(['user', 'vestige', 'irrigation',
+        $riceField = RiceField::where('id', $id)
+            ->with(['user', 'vestige', 'irrigation',
                 'region', 'photo'])
             ->firstOrfail();
 
@@ -291,6 +291,7 @@ class RiceFieldController extends Controller
                     DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from 
                     regions where regions.id = rice_fields.region_id) as regions"), )
                 ->havingRaw("regions LIKE '%{$search}%'")
+                ->where('ketersediaan', '1')
                 ->with('photo')
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id','title','harga'])
@@ -333,6 +334,7 @@ class RiceFieldController extends Controller
             ->where('id', $id)->firstOrfail();
 
         $randomRiceFields = RiceField::select('id', 'title', 'harga')
+            ->where('ketersediaan', '1')
             ->with('photo')
             ->limit(4)
             ->inRandomOrder()->get();
@@ -358,5 +360,43 @@ class RiceFieldController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function updateKetersediaan($id)
+    {
+        $riceField = RiceField::where('id', $id)->first();
+
+        if(auth()->user()->id != $riceField->user_id){
+            $status = [
+                "code" => 403,
+                "message" => "Forbidden",
+                "description" => "Sawah bukan milik pengguna yang sedang login",
+            ];
+
+            return response()->json(["status" => $status]);
+
         }
+
+        $ketersediaan = "1";
+        if($riceField->ketersediaan == 1){
+            $ketersediaan = "0";
+        }
+
+        $update = RiceField::where('id', $id)->where('id', $riceField->id)
+            ->update(['ketersediaan' => $ketersediaan]);
+
+        $status = [
+            "code" => 200,
+            "message" => "Succes",
+            "description" => "Sawah berhasil diupdate",
+        ];
+
+        $data = [
+            "status" => $status,
+            "riceField" => $update,
+        ];
+
+        return response()->json($data);
+
+    }
 }
