@@ -16,7 +16,7 @@ class SellController extends Controller
     public function index()
     {
 
-        $riceFields = RiceField::select('id', 'title', 'harga', 'user_id')
+        $riceFields = RiceField::select('id', 'title', 'harga', 'user_id', 'ketersediaan')
             ->where('user_id', auth()->user()->id)   
             ->with('photo', 'user')
             ->paginate(5);
@@ -153,4 +153,27 @@ class SellController extends Controller
         return redirect()->route('product', $riceField);
     }
 
+    public function putKetersediaan(RiceField $riceField)
+    {
+
+        if(auth()->user()->id != $riceField->user_id){
+            abort(403);
+        }
+
+        $ketersediaan = "1";
+        if($riceField->ketersediaan == 1){
+            $ketersediaan = "0";
+        }
+
+        // return "berhasil, ketersediaan = $ketersediaan";
+
+        $update = $riceField->where('id', $riceField->id)
+            ->update(['ketersediaan' => $ketersediaan]);
+
+        // return $update;
+
+        return redirect()->route('user.sell');
+
+    }
+    
 }

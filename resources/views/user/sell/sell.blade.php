@@ -49,23 +49,47 @@
                             @method('DELETE')
                             @csrf
                             <button type="submit" onclick="return confirm('Hapus sawah ini?')"
-                                class="text-gray-600 text-sm red"">
+                                class="text-red-600 text-sm red"">
                                 Hapus
                             </button>
+                        </form>
+
+                        <form action="{{ route('user.sell.ketersediaan.update', $riceField) }}" method="POST">
+                            @method('PUT')
+                            @csrf
+                            @if ($riceField->ketersediaan == 1)
+
+                            <button type="submit" onclick="return confirm('Ubah sawah menjadi tidak tersedia?')"
+                                class="text-blue-600 text-sm red"">
+                                Tersedia
+                            </button>
+
+                            @else
+
+                            <button type="submit" onclick="return confirm('Ubah sawah menjadi tersedia?')"
+                                class="text-red-600 text-sm red"">
+                                Tidak tersedia
+                            </button>
+
+                            @endif
+                            
                         </form>
                         
                     </div>
 
                     <div class=" flex justify-between mt-6">
-                                <div class="flex">
-                                    <img class="h-20 w-20 object-cover rounded"
-                                        src="{{ '/storage/'.$riceField->photo->photo_path }}" alt="">
-                                    <div class="mx-3">
-                                        <h3 class="text-sm text-gray-600">{{ $riceField->title }}</h3>
-                                    </div>
-                                </div>
-                                <span class="text-gray-600">Rp{{ $riceField->harga }}</span>
+                        <div class="flex">
+                            <img class="h-20 w-20 object-cover rounded"
+                                src="{{ '/storage/'.$riceField->photo->photo_path }}" alt="">
+                            <div class="mx-3">
+                                <h3 class="text-sm text-gray-600">{{ $riceField->title }}</h3>
+                            </div>
+                        </div>
+
+                        <span class="text-gray-600">Rp{{ $riceField->harga }}</span>
+
                     </div>
+
 
                 </div>
 

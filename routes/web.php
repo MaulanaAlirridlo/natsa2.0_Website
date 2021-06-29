@@ -108,6 +108,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{riceField}', [SellController::class, 'showPut'])->name('user.sell.edit');
         Route::put('/{riceField}', [SellController::class, 'put'])->name('user.sell.update');
 
+        Route::put('/ketersediaan/{riceField}', [SellController::class, 'putKetersediaan'])->name('user.sell.ketersediaan.update');
+
     });
 
     // halaman profile profile controller

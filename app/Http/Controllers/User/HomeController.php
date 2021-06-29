@@ -15,11 +15,13 @@ class HomeController extends Controller
         //     ->limit(4)->get();
 
         $latestRiceFields = RiceField::select('id', 'title', 'harga')
+            ->where('ketersediaan', '1')
             ->with('photo')
             ->orderBy('created_at', 'desc')
             ->limit(4)->get();
 
         $popularRiceFields = RiceField::select('id', 'title', 'harga')
+            ->where('ketersediaan', '1')
             ->with('photo')
             ->orderByViews()
             ->orderBy('created_at', 'desc')
@@ -27,6 +29,7 @@ class HomeController extends Controller
 
         $popularSellRiceFields = RiceField::select('id', 'title', 'harga')
             ->where('tipe', 'jual')
+            ->where('ketersediaan', '1')
             ->with('photo')
             ->orderByViews()
             ->orderBy('created_at', 'desc')
@@ -34,6 +37,7 @@ class HomeController extends Controller
 
         $popularRentRiceFields = RiceField::select('id', 'title', 'harga')
             ->where('tipe', 'sewa')
+            ->where('ketersediaan', '1')
             ->with('photo')
             ->orderByViews()
             ->orderBy('created_at', 'desc')
