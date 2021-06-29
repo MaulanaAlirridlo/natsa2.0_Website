@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\RiceField;
+use App\Models\UserHistory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\RiceFieldPhoto;
@@ -32,6 +33,36 @@ class RiceFieldController extends Controller
             "message" => "Succes",
             "description" => "Data berhasil diambil",
         ];
+
+        //record bahwa sawah dilihat
+        views($riceField)->record();
+
+        //simpan sawah di history jika login
+        if(auth()->user()){
+
+            $isItThere = UserHistory::where('user_id', auth()->user()->id)
+            ->where('rice_field_id', $id)->first();
+    
+            $userHistoryTotal = UserHistory::where('user_id', auth()->user()->id)
+                ->get()->count();
+            
+            //simpan sawah kalau belum ada
+            if(!$isItThere){
+    
+                //Hapus history terakhir jika history lebih dari 10
+                if($userHistoryTotal >= 10){
+                    UserHistory::where('user_id', auth()->user()->id)
+                        ->orderBy('id', 'desc')->first()->delete();
+                }
+    
+                UserHistory::create([
+                    "user_id" => auth()->user()->id,
+                    "rice_field_id" => $id,
+                ]);
+                
+            }
+            
+        }
 
         if ($riceField->count() <= 0) {
             $status = [

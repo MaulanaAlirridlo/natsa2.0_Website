@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\API\BookmarkController;
-use App\Http\Controllers\API\IrrigationController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\LogoutController;
 use App\Http\Controllers\API\RegionController;
+use App\Http\Controllers\API\HistoryController;
+use App\Http\Controllers\API\VestigeController;
+use App\Http\Controllers\API\BookmarkController;
 use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\RiceFieldController;
+use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\SocialMediaController;
-use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VerificationController;
-use App\Http\Controllers\API\VestigeController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,7 +97,7 @@ Route::prefix('riceFields')->group(function () {
 
 Route::get('product/{id}', [RiceFieldController::class, 'product']);
 
-
+//bookmark
 Route::middleware(['auth:sanctum'])->prefix('bookmarks')->group(function () {
 
     Route::get('/', [BookmarkController::class, 'index']);
@@ -125,6 +126,14 @@ Route::prefix('users')->group(function () {
         Route::get('/details', [UserController::class, 'details']);
 
     });
+
+});
+
+//history
+Route::middleware(['auth:sanctum'])->prefix('history')->group(function () {
+
+    Route::get('/', [HistoryController::class, 'index']);
+    Route::delete('/{id}', [HistoryController::class, 'destroy']);
 
 });
 
