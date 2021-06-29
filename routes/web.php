@@ -91,7 +91,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
 
     // halaman histori pakai histori controller
-    Route::get('/user-history', [HistoryController::class, 'index'])->name('user.history');
+    Route::prefix('/user-history')->group(function () {
+        
+        Route::get('/', [HistoryController::class, 'index'])->name('user.history');
+        Route::delete('/delete/{id}', [HistoryController::class, 'destroy'])->name('user.history.delete');
+
+    });
 
     // halaman jual pakai sell controller
     Route::prefix('/user-sell')->group(function () {

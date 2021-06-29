@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Models\Irrigation;
-use App\Models\RiceField;
-use App\Models\Verification;
 use App\Models\Vestige;
+use App\Models\RiceField;
+use App\Models\Irrigation;
+use App\Models\UserHistory;
+use App\Models\Verification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -71,7 +72,35 @@ class ProductController extends Controller
                 'region', 'verification', 'photo'])
             ->firstOrFail();
 
+        //record bahwa sawah dilihat
         views($riceField)->record();
+
+        //simpan sawah di history jika login
+        if(auth()->user()){
+
+            $isItThere = UserHistory::where('user_id', auth()->user()->id)
+            ->where('rice_field_id', $id)->first();
+    
+            $userHistoryTotal = UserHistory::where('user_id', auth()->user()->id)
+                ->get()->count();
+            
+            //simpan sawah kalau belum ada
+            if(!$isItThere){
+    
+                //Hapus history terakhir jika history lebih dari 10
+                if($userHistoryTotal >= 10){
+                    UserHistory::where('user_id', auth()->user()->id)
+                        ->orderBy('id', 'desc')->first()->delete();
+                }
+    
+                UserHistory::create([
+                    "user_id" => auth()->user()->id,
+                    "rice_field_id" => $id,
+                ]);
+                
+            }
+            
+        }
 
         $randomRiceFields = RiceField::select('id', 'title', 'harga')
             ->with('photo')
