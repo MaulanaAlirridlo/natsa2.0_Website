@@ -118,12 +118,15 @@ Route::prefix('users')->group(function () {
 
     Route::post('/login', [LoginController::class, 'store']);
     Route::post('/register', [RegisterController::class, 'store']);
-
+    
     //protected
     Route::middleware('auth:sanctum')->group(function () {
 
-        Route::post('/logout', [LogoutController::class, 'store']);
+        Route::post('/do', [UserController::class, 'do']);
+        
         Route::put('/update', [UserController::class, 'update']);
+        Route::put('/update/password', [UserController::class, 'updatePassword']);
+        Route::post('/logout', [LogoutController::class, 'store']);
         Route::delete('/delete', [UserController::class, 'destroy']);
         Route::get('/details', [UserController::class, 'details']);
 
