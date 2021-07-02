@@ -19,7 +19,7 @@
 
                 @auth
                 {{-- ke halaman managae account --}}
-                <a href="{{route('user.profile')}}">
+                <a href="{{route('user.history')}}">
                     
                     <button class="text-gray-600 focus:outline-none mx-3 sm:mx-2">
                         <i class="fas fa-user"></i>

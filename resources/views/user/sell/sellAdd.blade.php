@@ -201,6 +201,7 @@
                             <input class="mt-1" name="photo[]" id="photo" type="file" 
                                 data-max-file-size="512KB"
                                 data-max-files="5"    
+                                accept="image/png, image/jpeg, image/gif"
                                 multiple 
                                 required />
                         </label>
@@ -248,6 +249,9 @@
         
         // previews dropped images
         FilePondPluginImagePreview,
+
+        // validatae type
+        FilePondPluginFileValidateType
 
     );
 

@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\SellController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\SocialMediaController as SocialMediaController;
+use App\Http\Controllers\User\SocialMediaController as UserSocialMediaController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\ProductController;
@@ -113,7 +114,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // halaman profile profile controller
-    Route::get('/user-profile', [ProfileController::class,'index'])->name('user.profile');
+    Route::prefix('/user-profile')->group(function () {
+        
+        Route::get('/', [ProfileController::class,'index'])->name('user.profile');
+        Route::put('update/profile', [ProfileController::class,'updateProfile'])->name('user.profile.update');
+        Route::put('update/password', [ProfileController::class,'updatePassword'])->name('user.profile.update.password');
+        Route::delete('/delete', [ProfileController::class,'destroy'])->name('user.profile.delete');
+        
+        Route::prefix('/social-media')->group(function () {
+            
+            Route::post('/', [UserSocialMediaController::class, 'store'])->name('user.sosmed.add');
+            Route::delete('/{userSocialMedia}', [UserSocialMediaController::class, 'destroy'])->name('user.sosmed.delete');
+            Route::put('/{userSocialMedia}', [UserSocialMediaController::class, 'update'])->name('user.sosmed.update');
+        
+        });
+    });
+
+        
 
 
 });

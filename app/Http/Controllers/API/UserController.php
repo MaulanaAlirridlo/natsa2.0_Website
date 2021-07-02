@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Contracts\Validation\Rule;
 
 class UserController extends Controller
 {
