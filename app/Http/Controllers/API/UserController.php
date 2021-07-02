@@ -96,10 +96,6 @@ class UserController extends Controller
         return response()->json($data);
     }
 
-    public function do(Request $request){
-        return $request;
-    }
-
     /**
      * Update the specified resource in storage.
      *

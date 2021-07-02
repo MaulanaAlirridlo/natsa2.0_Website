@@ -122,8 +122,6 @@ Route::prefix('users')->group(function () {
     //protected
     Route::middleware('auth:sanctum')->group(function () {
 
-        Route::post('/do', [UserController::class, 'do']);
-        
         Route::put('/update', [UserController::class, 'update']);
         Route::put('/update/password', [UserController::class, 'updatePassword']);
         Route::post('/logout', [LogoutController::class, 'store']);
