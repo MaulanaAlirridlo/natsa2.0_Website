@@ -56,6 +56,23 @@ class UserSocialMediaController extends Controller
             'sosmedLink' => ['required', 'url', 'max:100'],
         ]);
 
+        $exist = UserSocialMedia::where('social_media_id', $request->sosmedId)
+            ->where('user_id', auth()->user()->id)->get();
+
+        if ($exist->count() > 0) {
+            $status = [
+                "code" => 204,
+                "message" => "Error",
+                "description" => "Wow, satu sosmed hanya boleh satu link",
+            ];
+
+            $data = [
+                "status" => $status,
+            ];
+
+            return response()->json($data);
+        }
+
         $sosmed = UserSocialMedia::create([
             'user_id' => auth()->user()->id,
             'social_media_id' => $request->sosmedId,
