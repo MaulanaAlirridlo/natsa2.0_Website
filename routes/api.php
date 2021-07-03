@@ -13,6 +13,7 @@ use App\Http\Controllers\API\RiceFieldController;
 use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\SocialMediaController;
 use App\Http\Controllers\API\VerificationController;
+use App\Http\Controllers\API\UserSocialMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,16 +119,17 @@ Route::prefix('users')->group(function () {
 
     Route::post('/login', [LoginController::class, 'store']);
     Route::post('/register', [RegisterController::class, 'store']);
-    
-    //protected
-    Route::middleware('auth:sanctum')->group(function () {
 
-        Route::put('/update', [UserController::class, 'update']);
-        Route::put('/update/password', [UserController::class, 'updatePassword']);
-        Route::post('/logout', [LogoutController::class, 'store']);
-        Route::delete('/delete', [UserController::class, 'destroy']);
-        Route::get('/details', [UserController::class, 'details']);
+});
 
+//protected
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::prefix('/user/social-media')->group(function () {
+        Route::get('/', [UserSocialMediaController::class, 'index']);
+        Route::post('/', [UserSocialMediaController::class, 'store']);
+        Route::delete('/{id}', [UserSocialMediaController::class, 'destroy']);
+        Route::put('/{id}', [UserSocialMediaController::class, 'update']);
     });
 
 });
