@@ -192,7 +192,7 @@ NATSA
                     <button type="submit" onclick="return confirm('Buang sawah dari bookmark?')"
                         class="px-8 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-500 focus:outline-none focus:bg-red-500">Hapus
                         Sawah <i class="far fa-bookmark ml-1"></i></button>
-                    
+
                 </form>
                 @else
 
@@ -203,7 +203,7 @@ NATSA
                         sawah <i class="far fa-bookmark ml-1"></i></button>
                 </form>
 
-                    
+
                 @endif
 
                 @endauth
@@ -245,9 +245,50 @@ NATSA
             </div>
 
             <div class="mt-2">
+                <label class="text-gray-700 text-sm" for="alamat">No Hp:</label>
+                <div class="flex items-center mt-1">
+                    @auth
+                    <span class="text-gray-700 text-lg">
+                        {{ $riceField->user->no_hp }}
+                    </span>
+                    @endauth
+                    @guest
+                    <span class="text-gray-700 text-sm">
+                        Login untuk melihat nomor HP
+                    </span>
+                    @endguest
+                </div>
+            </div>
+
+            <div class="mt-2">
                 <label class="text-gray-700 text-sm" for="daerah">Bergabung sejak:</label>
                 <div class="flex items-center mt-1">
                     <span class="text-gray-700 text-lg">{{ $riceField->user->created_at->toDateString() }}</span>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <label class="text-gray-700 text-sm" for="count">Sosmed:</label>
+                <div class="flex items-center mt-1">
+                    @auth
+                    @foreach ($makelarSocialMedias as $socialMedia)
+                    <a href="{{ $socialMedia->link }}" target="_blank">
+                        <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                            
+                            <img class="object-cover w-full h-full rounded-full"
+                            src="{{ '/storage/'.$socialMedia->socialMedia->icon_path }}" alt="" loading="lazy" />
+                            <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                        </div>
+                    </a>
+
+                    {{-- <button class="h-5 w-5 rounded-full bg-blue-600 border-2 border-blue-200 mr-2 focus:outline-none"></button> --}}
+                    @endforeach
+                    @endauth
+                    @guest
+                    <span class="text-gray-700 text-sm">
+                        Login untuk melihat social media
+                    </span>
+                    @endguest
                 </div>
             </div>
 
@@ -260,6 +301,7 @@ NATSA
             </div>
         </div>
     </div>
+
 
 
     <div class="mt-16">

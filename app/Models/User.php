@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\SocialMedia;
 use App\Models\UserSocialMedia;
-use Laravel\Jetstream\HasTeams;
-use Laravel\Sanctum\HasApiTokens;
-use Laravel\Jetstream\HasProfilePhoto;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Jetstream\HasProfilePhoto;
+use Laravel\Jetstream\HasTeams;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -28,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'email', 'password', 'role', 'username', 'ktp', 'profile_photo_path'
-        ,'no_hp',
+        , 'no_hp',
     ];
 
     /**
@@ -61,8 +62,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
-    public function userSocialMedia(){
-        return $this->hasMany(UserSocialMedia::class);
+    public function userSocialMedia()
+    {
+        return $this->hasMany(UserSocialMedia::class)->with('socialMedia');
+
+        // return $this->hasOneThrough(SocialMedia::class, UserSocialMedia::class);
     }
 
     /**
@@ -74,5 +78,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(RiceField::class);
     }
-    
+
 }

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Models\Irrigation;
+use App\Models\User;
+use App\Models\Vestige;
 use App\Models\RiceField;
+use App\Models\Irrigation;
 use App\Models\UserHistory;
 use App\Models\Verification;
-use App\Models\Vestige;
 use Illuminate\Http\Request;
+use App\Models\UserSocialMedia;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -68,13 +70,22 @@ class ProductController extends Controller
         $riceField = RiceField::where('id', $id)
             ->where('ketersediaan', '1')
             ->with(['user', 'vestige', 'irrigation',
-                'region', 'verification', 'photo'])
-            ->firstOrFail();
+                'region', 'photo'])
+            ->first();
+        
+        $makelarSocialMedias = UserSocialMedia::where('user_id', $riceField->user_id)
+            ->with('socialMedia')
+            ->get();
+            
+        $randomRiceFields = RiceField::select('id', 'title', 'harga')
+            ->with('photo')
+            ->limit(4)
+            ->inRandomOrder()->get();
 
         //record bahwa sawah dilihat
         views($riceField)->record();
 
-        //simpan sawah di history jika login
+        // simpan sawah di history jika login
         if (auth()->user()) {
 
             $isItThere = UserHistory::where('user_id', auth()->user()->id)
@@ -101,15 +112,10 @@ class ProductController extends Controller
 
         }
 
-        $randomRiceFields = RiceField::select('id', 'title', 'harga')
-            ->with('photo')
-            ->limit(4)
-            ->inRandomOrder()->get();
-
-        // return $randomRiceFields;
         return view('user.product', [
             'riceField' => $riceField,
             'randomRiceFields' => $randomRiceFields,
+            'makelarSocialMedias' => $makelarSocialMedias,
         ]);
     }
 
