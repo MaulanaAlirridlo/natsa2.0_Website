@@ -68,7 +68,10 @@ Route::prefix('products')->group(function () {
     //public
     Route::get('/', [ProductController::class, 'index'])->name('products');
     Route::get('search/', [ProductController::class, 'search'])->name('products.search');
+    Route::get('katalog/', [ProductController::class, 'katalog'])->name('products.katalog');
     Route::get('/{id}', [ProductController::class, 'show'])->name('product');
+    
+    // Route::view('user.productsKatalog', 'user.productsKatalog')->name('product.katalog');
 
     //protected -> khusus kalau sudah login
     Route::middleware(['auth'])->group(function () {

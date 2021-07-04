@@ -92,11 +92,10 @@
                 </svg>
             </span>
 
-            <form action="{{ route('products.search') }}" method="GET">
+            <form action="{{ route('products') }}" method="GET">
                 <input
                     class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
-                    type="search" name="search" placeholder="Cari di daerah..." value="@isset($_GET['search']){{ $_GET['search'] }}@endisset">
-
+                    type="text" name="region" id="region" placeholder="Cari di daerah..." value="@isset($_GET['region']){{ $_GET['region'] }}@endisset">
 
             </form>
         </div>
