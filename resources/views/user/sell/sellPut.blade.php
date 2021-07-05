@@ -20,7 +20,6 @@
         <div class="w-full mb-8 flex-shrink-0 order-2 md:w-2/3 md:mb-0 md:order-2">
 
             <div class="w-full overflow-hidden rounded-lg">
-
                 <form action="{{ route('user.sell.update', $riceField) }}" method="POST" id="riceFieldAdd"
                     enctype="multipart/form-data">
 
@@ -132,8 +131,6 @@
                         </label>
 
                         <div class="grid grid-cols-2 gap-4 mt-4">
-
-
                             <label class="block text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Sertifikasi</span>
                                 <select name="sertifikasi" id="sertifikasi" required
@@ -201,42 +198,115 @@
                             </label>
 
                         </div>
+                        
+                        <div class="block text-sm my-4" id="oldPic">
+                            <span class="text-gray-700 dark:text-gray-400">Hapus gambar lama</span>
+                            <div class="grid gap-6 grid-cols-1 md:grid-cols-2 mt-6">
+                                @foreach ($riceField->photos as $photo)
+                                <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden relative">
+        
+                                    <div class="flex items-end justify-end h-56 w-full bg-cover"
+                                        style="background-image: url('{{ '/storage/'.$photo->photo_path }}')">
+                                    </div>
+        
+        
+                                    <button id="fotoSawah" data-id="{{ $photo->id }}" type="button"
+                                        class="absolute top-0 right-0 p-2 bg-red-600 text-white hover:bg-red-500 focus:outline-none focus:bg-red-500"
+                                        title="bookmark">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
 
-                        {{-- <label class="block text-sm mt-4">
-                            <span class="text-gray-700 dark:text-gray-400">Gambar</span>
-                            <input class="mt-1" name="photo[]" id="photo" type="file" multiple required />
-                        </label> --}}
-                    </div>
+                        <label class="block text-sm mt-4">
+                            <span class="text-gray-700 dark:text-gray-400">Upload gambar baru</span>
+                            <input class="mt-1" name="photo[]" id="photo" type="file" data-max-file-size="512KB"
+                                data-max-files="5" accept="image/png, image/jpeg, image/gif" multiple />
+                        </label>
                 </form>
 
-            </div>
-
-
-            <div class="">
-                <a href="{{ route('admin.riceFields') }}">
-                    <button
-                        class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-gray-600 border border-transparent rounded-lg active:bg-gray-600 hover:bg-gray-700 focus:outline-none focus:shadow-outline-purple">
-                        Batal
-                    </button>
-                </a>
-
-                <button type="submit" form="riceFieldAdd"
-                    class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    Update Sawah
-                </button>
 
             </div>
 
         </div>
 
+        <div class="">
+            <a href="{{ route('user.sell') }}">
+                <button
+                    class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-gray-600 border border-transparent rounded-lg active:bg-gray-600 hover:bg-gray-700 focus:outline-none focus:shadow-outline-purple">
+                    Batal
+                </button>
+            </a>
+
+            <button type="submit" form="riceFieldAdd"
+                class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Update Sawah
+            </button>
+        </div>
+
     </div>
+
+</div>
 </div>
 
 @endsection
 
 @section('script')
 
-{{-- <script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<script>
+    $('body').on('click', "#fotoSawah", function () {
+
+        // alert( "Removing item with an id of " + $(this).data("id") );
+        if (confirm('Yakin dihapus?')) {     
+            var formData = {
+                id: $(this).data("id"),
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            });
+
+            $.ajax({
+                type:'DELETE',
+                url:"{{ route('user.sell.delete.photo') }}",
+                data: formData,
+                dataType: 'json',
+                success:function(data) {
+                    $("#oldPic").load(" #oldPic > *");
+                },
+                error:function(data) {
+                    console.log(data);
+                }
+            });
+        }
+        
+    });
+    
+    
+    FilePond.registerPlugin(
+        // encodes the file as base64 data
+        FilePondPluginFileEncode,
+        
+        // validates the size of the file
+        FilePondPluginFileValidateSize,
+        
+        // corrects mobile image orientation
+        FilePondPluginImageExifOrientation,
+        
+        // previews dropped images
+        FilePondPluginImagePreview,
+
+        // validatae type
+        FilePondPluginFileValidateType,
+
+    );
+
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[id="photo"]');
     // Create a FilePond instance
@@ -252,6 +322,7 @@
             }
         }
     });
-</script> --}}
+
+</script>
 
 @endsection

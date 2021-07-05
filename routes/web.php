@@ -106,11 +106,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/user-sell')->group(function () {
         
         Route::get('/', [SellController::class, 'index'])->name('user.sell');
+
         Route::delete('/{riceField}', [SellController::class, 'destroy'])->name('user.sell.delete');
+
         Route::get('/add', [SellController::class, 'showStore'])->name('user.sell.add');
         Route::post('/', [SellController::class, 'store'])->name('user.sell.store');
+
         Route::get('/edit/{riceField}', [SellController::class, 'showPut'])->name('user.sell.edit');
         Route::put('/{riceField}', [SellController::class, 'put'])->name('user.sell.update');
+        Route::delete('edit/photo/', [SellController::class, 'destroyPhoto'])->name('user.sell.delete.photo');
 
         Route::put('/ketersediaan/{riceField}', [SellController::class, 'putKetersediaan'])->name('user.sell.ketersediaan.update');
 

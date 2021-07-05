@@ -50,11 +50,14 @@ class SellController extends Controller
 
     public function showPut(RiceField $riceField)
     {
+        // $riceField = $riceField->with('photos')->first();
+        $riceField = RiceField::where('id', $riceField->id)->with('photos')->first();
 
         $vestiges = Vestige::orderBy('vestige', 'asc')->get();
         $irrigations = Irrigation::orderBy('irrigation', 'asc')->get();
         $regions = Region::orderBy('provinsi', 'asc')->get();
 
+        // return $riceField;
         return view('user.sell.sellPut', [
             'riceField' => $riceField,
             'vestiges' => $vestiges,
@@ -120,7 +123,8 @@ class SellController extends Controller
     }
 
     public function put(RiceField $riceField, Request $request)
-    {
+    {  
+
         $this->validate($request, [
             'title' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
             'harga' => ['required','digits_between:1,11','numeric'],
@@ -149,6 +153,31 @@ class SellController extends Controller
                 'region_id' => $request->region,
                 'irrigation_id' => $request->irrigation,
             ]);
+        
+        if($request->has('photo')){
+
+            $files = $request->photo;
+            $i = 1;
+
+            foreach ($files as $file) {
+                $newFileName = $riceField->id . '-' . $file;
+    
+                // pindah foto ke storage/riceFields
+                Storage::move('riceFieldPhotos/temps/'.$file, 'riceFieldPhotos/'.$newFileName);
+    
+                //simpan nama ke database
+                RiceFieldPhoto::create([
+                    'rice_field_id' => $riceField->id,
+                    'photo_path' => 'riceFieldPhotos/' . $newFileName,
+                ]);
+    
+                $i++;
+            }
+
+        }
+        
+        
+        
 
         return redirect()->route('product', $riceField);
     }
@@ -173,6 +202,32 @@ class SellController extends Controller
         // return $update;
 
         return redirect()->route('user.sell');
+
+    }
+
+    public function destroyPhoto(Request $request){
+
+        $this->validate($request,[
+            'id' => 'required|numeric',
+        ]);
+        
+        //ambil data
+        $riceFieldPhoto = RiceFieldPhoto::where('id', $request->id)->first();
+
+        //hapus foto di storage
+        $file = $riceFieldPhoto->photo_path;
+        $delete = Storage::delete($file);
+
+        //hapus data di database
+        $destroy = $riceFieldPhoto->delete();
+
+        $msg = "Berhasil dihapus";
+
+        if(!$destroy || !$delete){
+            $msg = 'Ops, ada yang salah';
+        }
+        
+        return response()->json(array('msg'=> $msg), 200);
 
     }
     
