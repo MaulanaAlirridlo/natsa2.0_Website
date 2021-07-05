@@ -16,7 +16,7 @@ class HistoryController extends Controller
             ->where('user_histories.user_id', auth()->user()->id)
             ->where('ketersediaan', '1')
             ->with('photo', 'user')
-            ->paginate(10);
+            ->paginate(5);
 
         $status = [
             "code" => 200,
@@ -34,7 +34,7 @@ class HistoryController extends Controller
 
         $data = [
             "status" => $status,
-            "riceFields" => $riceFields,
+            "riceField" => $riceFields,
         ];
 
         return response()->json($data);
