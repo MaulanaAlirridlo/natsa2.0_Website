@@ -10,6 +10,7 @@ use App\Models\RiceFieldPhoto;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Storage;
 
 class RiceFieldController extends Controller
 {
@@ -60,20 +61,20 @@ class RiceFieldController extends Controller
     {
 
         $this->validate($request, [
-            'title' => 'required|max:150',
-            'harga' => 'required|max:11',
-            'luas' => 'required|max:11',
-            'alamat' => 'required|max:1024',
-            'deskripsi' => 'required|max:1024',
-            'maps' => 'required|max:254',
-            'sertifikasi' => 'required|max:20',
-            'tipe' => 'required|max:20',
+            'title' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
+            'harga' => ['required','digits_between:1,11','numeric'],
+            'luas' => ['required','digits_between:1,11','numeric'],
+            'alamat' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
+            'deskripsi' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
+            'maps' => ['required','max:100'],
+            'sertifikasi' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
+            'tipe' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
             'vestige' => 'required',
             'region' => 'required',
             'irrigation' => 'required',
             'photo.*' => ["required", "mimes:png,jpg,jpeg", "max:512"]
-
         ]);
+
 
 
         $riceField = RiceField::create([
@@ -207,20 +208,20 @@ class RiceFieldController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, [
-            'title' => 'required|max:150',
-            'harga' => 'required|max:11',
-            'luas' => 'required|max:11',
-            'alamat' => 'required|max:1024',
-            'deskripsi' => 'required|max:1024',
-            'maps' => 'required|max:254',
-            'sertifikasi' => 'required|max:20',
-            'tipe' => 'required|max:20',
-            'pemilik' => 'required',
+            'title' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
+            'harga' => ['required','digits_between:1,11','numeric'],
+            'luas' => ['required','digits_between:1,11','numeric'],
+            'alamat' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
+            'deskripsi' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
+            'maps' => ['required','max:100'],
+            'sertifikasi' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
+            'tipe' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
             'vestige' => 'required',
             'region' => 'required',
             'irrigation' => 'required',
-            'verification' => 'required',
+            'photo.*' => ["mimes:png,jpg,jpeg", "max:512"]
         ]);
 
         $riceField = RiceField::where('id', $id)
@@ -233,12 +234,36 @@ class RiceFieldController extends Controller
                 'maps' => $request->maps,
                 'sertifikasi' => $request->sertifikasi,
                 'tipe' => $request->tipe,
-                'user_id' => $request->pemilik,
+                'user_id' => auth()->user()->id,
                 'vestige_id' => $request->vestige,
                 'region_id' => $request->region,
                 'irrigation_id' => $request->irrigation,
-                'verification_id' => $request->verification,
             ]);
+        
+        if ($request->hasFile('photo')) {
+
+            //buat nama baru untuk fotonya
+            $files = $request->file('photo');
+            $i = 1;
+
+            foreach ($files as $file) {
+                
+                $extension = $file->extension();
+                $fileName = $riceField->id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
+
+                // simpan foto di server
+                $file->storeAs('/riceFieldPhotos', $fileName, '');
+
+                //simpan nama ke database
+                RiceFieldPhoto::create([
+                    'rice_field_id' => $riceField->id,
+                    'photo_path' => 'riceFieldPhotos/' . $fileName,
+                ]);
+
+                $i++;
+            }
+
+        }
 
         $status = [
             "code" => 200,
@@ -398,4 +423,42 @@ class RiceFieldController extends Controller
         return response()->json($data);
 
     }
+
+    public function destroyPhoto(Request $request){
+
+        $this->validate($request,[
+            'id' => 'required|numeric',
+        ]);
+        
+        //ambil data
+        $riceFieldPhoto = RiceFieldPhoto::where('id', $request->id)->first();
+
+        //hapus foto di storage
+        $file = $riceFieldPhoto->photo_path;
+        $delete = Storage::delete($file);
+
+        //hapus data di database
+        $destroy = $riceFieldPhoto->delete();
+
+        $msg = "Berhasil dihapus";
+
+        if(!$destroy || !$delete){
+            $msg = 'Ops, ada yang salah';
+        }
+        
+        $status = [
+            "code" => 204,
+            "message" => "Succes",
+            "description" => "Foto berhasil dihapus",
+        ];
+
+        $data = [
+            "status" => $status,
+            "riceField" => $riceField,
+        ];
+
+        return response()->json($data);
+
+    }
+
 }

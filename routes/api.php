@@ -90,7 +90,10 @@ Route::prefix('riceFields')->group(function () {
     //protected
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [RiceFieldController::class, 'store']);
+        
         Route::delete('/{id}', [RiceFieldController::class, 'destroy']);
+        Route::delete('delete/photo/{id}', [RiceFieldController::class, 'destroyPhoto']);
+
         Route::put('/{id}', [RiceFieldController::class, 'update']);
         Route::put('/ketersediaan/{id}', [RiceFieldController::class, 'updateKetersediaan']);
 
