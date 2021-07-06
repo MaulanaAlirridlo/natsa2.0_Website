@@ -50,12 +50,29 @@ NATSA
 
     {{-- detail product --}}
     <div class="md:flex md:items-center">
+        
         {{-- gambar product --}}
 
-        <div class="w-full h-64 md:w-1/2 lg:h-96">
-            <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto"
-                src="{{ '/storage/'.$riceField->photo->photo_path }}" alt="{{ $riceField->title }}">
-        </div>
+        {{-- <div class="w-full h-64 md:w-1/2 lg:h-96"> --}}
+
+            <div class="swiper-container mySwiper w-full h-64 md:w-1/2 lg:h-96 ">
+                <div class="swiper-wrapper ">
+                  <div class="swiper-slide"><img class=" flex h-full w-full rounded-md object-cover max-w-lg mx-auto" src="{{ '/storage/'.$riceField->photo->photo_path }}" alt="{{ $riceField->title }}"></div>
+                  <div class="swiper-slide">Slide 2</div>
+                  <div class="swiper-slide">Slide 3</div>
+                  <div class="swiper-slide">Slide 4</div>
+                  <div class="swiper-slide">Slide 5</div>
+                  <div class="swiper-slide">Slide 6</div>
+                  <div class="swiper-slide">Slide 7</div>
+                  <div class="swiper-slide">Slide 8</div>
+                  <div class="swiper-slide">Slide 9</div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination font-extrabold text-lg"></div>
+            </div>
+            {{-- <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto" src="{{ '/storage/'.$riceField->photo->photo_path }}" alt="{{ $riceField->title }}"> --}}
+        {{-- </div> --}}
 
 
         {{-- carousel Foto produk --}}
@@ -331,4 +348,19 @@ NATSA
     </div>
 
 </div>
+    @section('script')
+        <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+          pagination: {
+            el: ".swiper-pagination",
+            type: "fraction",
+          },
+          navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+        });
+      </script>
+    @endsection
 @endsection
