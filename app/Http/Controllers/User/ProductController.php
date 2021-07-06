@@ -112,7 +112,7 @@ class ProductController extends Controller
         $riceField = RiceField::where('id', $id)
             ->where('ketersediaan', '1')
             ->with(['user', 'vestige', 'irrigation',
-                'region', 'photo'])
+                'region', 'photos'])
             ->first();
         
         $makelarSocialMedias = UserSocialMedia::where('user_id', $riceField->user_id)
