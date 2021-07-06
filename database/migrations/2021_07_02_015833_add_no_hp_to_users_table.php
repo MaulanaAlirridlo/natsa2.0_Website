@@ -14,7 +14,7 @@ class AddNoHpToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('no_hp', 13)->nullalbe();
+            $table->string('no_hp', 13)->nullable();
         });
     }
 
