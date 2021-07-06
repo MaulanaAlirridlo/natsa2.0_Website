@@ -14,16 +14,7 @@
                             <th class="px-4 py-3">ID</th>
                             <th class="px-4 py-3">Pemilik</th>
                             <th class="px-4 py-3">Judul</th>
-                            <th class="px-4 py-3">Harga</th>
-                            <th class="px-4 py-3">Luas</th>
-                            <th class="px-4 py-3">Alamat</th>
-                            <th class="px-4 py-3">Deskripsi</th>
-                            <th class="px-4 py-3">Sertifikasi</th>
-                            <th class="px-4 py-3">Tipe</th>
                             <th class="px-4 py-3">Dibuat</th>
-                            <th class="px-4 py-3">Bekas</th>
-                            <th class="px-4 py-3">Irigasi</th>
-                            <th class="px-4 py-3">Daerah</th>
                             <th class="px-4 py-3" colspan="3">Menu</th>
                         </tr>
                     </thead>
@@ -36,45 +27,28 @@
                             <td class="px-4 py-3 text-sm">
                                 {{ $riceField->user->name }}
                             </td>
-                            <td class="px-4 py-3 text-sm">
+                            <td class="px-4 py-3 text-sm max-w-xs truncate">
                                 {{ $riceField->title }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->harga }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->luas }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->alamat }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->deskripsi }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->sertifikasi }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->tipe }}
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 {{ $riceField->created_at }}
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->vestige }}
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->irrigation }}
+                            <td>
+                                <a href="{{ route('admin.riceFields.show', $riceField) }}">
+                                    
+                                    <button type="submit"
+                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                        Lihat
+                                    </button>
+                                </a>
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $riceField->region }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
+                            <td>
                                 <form action="{{ route('admin.riceFields.delete', $riceField) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" onclick="return confirm('yakin ingin dihapus?')"
-                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-md active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-red">
                                         Hapus
                                     </button>
                                 </form>
@@ -83,17 +57,8 @@
                                 <a href="{{ route('admin.riceFields.put', $riceField) }}">
                                     
                                     <button type="submit"
-                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-md active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-green">
                                         Edit
-                                    </button>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.riceFields.show', $riceField) }}">
-                                    
-                                    <button type="submit"
-                                        class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                        Lihat
                                     </button>
                                 </a>
                             </td>

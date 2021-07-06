@@ -72,6 +72,7 @@ class UserController extends Controller
             'ktp' => $request->ktp,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'email_verified_at' => now(),
 
         ]);
 

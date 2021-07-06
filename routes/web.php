@@ -10,6 +10,7 @@ use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Admin\VestigeController;
 use App\Http\Controllers\User\BookmarkController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
 use App\Http\Controllers\Auth\GoogleLoginController;
@@ -161,9 +162,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/admin')->middleware('role:admin')->group(function () {
         //dashboard
-        Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         //region
         Route::get('/regions', [RegionController::class, 'index'])->name('admin.regions');

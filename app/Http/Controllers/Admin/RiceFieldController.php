@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\Region;
-use App\Models\Vestige;
-use App\Models\RiceField;
-use App\Models\Irrigation;
-use Illuminate\Support\Str;
-use App\Models\Verification;
-use Illuminate\Http\Request;
-use App\Models\RiceFieldPhoto;
 use App\Http\Controllers\Controller;
+use App\Models\Irrigation;
+use App\Models\Region;
+use App\Models\RiceField;
+use App\Models\RiceFieldPhoto;
+use App\Models\User;
+use App\Models\Verification;
+use App\Models\Vestige;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class RiceFieldController extends Controller
 {
     public function index()
     {
-        $riceField = RiceField::orderBy('created_at', 'asc')->with(['user', 'vestige', 'irrigation', 'region', 'verification'])->paginate(10);
+        $riceField = RiceField::orderBy('created_at', 'asc')
+            ->with(['user', 'vestige', 'irrigation', 'region', 'verification'])
+            ->paginate(10);
 
         return view('admin.riceFields.riceField', [
             'riceFields' => $riceField,
@@ -71,14 +72,14 @@ class RiceFieldController extends Controller
     {
 
         $this->validate($request, [
-            'title' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
-            'harga' => ['required','digits_between:1,11','numeric'],
-            'luas' => ['required','digits_between:1,11','numeric'],
-            'alamat' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
-            'deskripsi' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
-            'maps' => ['required','max:100'],
-            'sertifikasi' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
-            'tipe' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
+            'title' => ['required', 'max:100', 'string', 'regex:/^[\pL\s\-]+$/u'],
+            'harga' => ['required', 'digits_between:1,11', 'numeric'],
+            'luas' => ['required', 'digits_between:1,11', 'numeric'],
+            'alamat' => ['required', 'max:1024', 'regex:/^[\pL\s\-]+$/u'],
+            'deskripsi' => ['required', 'max:1024', 'regex:/^[\pL\s\-]+$/u'],
+            'maps' => ['required', 'max:100'],
+            'sertifikasi' => ['required', 'max:20', 'string', 'regex:/^[\pL\s\-]+$/u'],
+            'tipe' => ['required', 'max:20', 'string', 'regex:/^[\pL\s\-]+$/u'],
             'pemilik' => 'required',
             'vestige' => 'required',
             'region' => 'required',
@@ -110,7 +111,7 @@ class RiceFieldController extends Controller
             $newFileName = $riceField->id . '-' . $file;
 
             // pindah foto ke storage/riceFields
-            Storage::move('riceFieldPhotos/temps/'.$file, 'riceFieldPhotos/'.$newFileName);
+            Storage::move('riceFieldPhotos/temps/' . $file, 'riceFieldPhotos/' . $newFileName);
 
             //simpan nama ke database
             RiceFieldPhoto::create([
@@ -120,7 +121,6 @@ class RiceFieldController extends Controller
 
             $i++;
         }
-
 
         return redirect()->route('admin.riceFields');
 
@@ -137,14 +137,14 @@ class RiceFieldController extends Controller
     public function put(RiceField $riceField, Request $request)
     {
         $this->validate($request, [
-            'title' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
-            'harga' => ['required','digits_between:1,11','numeric'],
-            'luas' => ['required','digits_between:1,11','numeric'],
-            'alamat' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
-            'deskripsi' => ['required','max:1024','regex:/^[\pL\s\-]+$/u'],
-            'maps' => ['required','max:100'],
-            'sertifikasi' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
-            'tipe' => ['required','max:20','string','regex:/^[\pL\s\-]+$/u'],
+            'title' => ['required', 'max:100', 'string', 'regex:/^[\pL\s\-]+$/u'],
+            'harga' => ['required', 'digits_between:1,11', 'numeric'],
+            'luas' => ['required', 'digits_between:1,11', 'numeric'],
+            'alamat' => ['required', 'max:1024', 'regex:/^[\pL\s\-]+$/u'],
+            'deskripsi' => ['required', 'max:1024', 'regex:/^[\pL\s\-]+$/u'],
+            'maps' => ['required', 'max:100'],
+            'sertifikasi' => ['required', 'max:20', 'string', 'regex:/^[\pL\s\-]+$/u'],
+            'tipe' => ['required', 'max:20', 'string', 'regex:/^[\pL\s\-]+$/u'],
             'pemilik' => 'required',
             'vestige' => 'required',
             'region' => 'required',
