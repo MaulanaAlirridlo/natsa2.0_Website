@@ -16,6 +16,9 @@
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.2.1/dist/alpine.js" defer></script>
         <script src="{{ asset('js/app.js') }}"></script>
+
+        {{-- fontawesome css --}}
+        <link rel="stylesheet" href="{{ mix('css/style.css') }}" />
     </head>
     <body>
         <div class="font-sans antialiased text-gray-900">

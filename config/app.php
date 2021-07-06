@@ -177,6 +177,9 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        //socialite provider
+        \SocialiteProviders\Manager\ServiceProvider::class, // add
+
     ],
 
     /*

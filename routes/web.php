@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\SellController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\SocialMediaController as SocialMediaController;
-use App\Http\Controllers\User\SocialMediaController as UserSocialMediaController;
 use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\ProductController;
@@ -14,9 +12,12 @@ use App\Http\Controllers\Admin\VestigeController;
 use App\Http\Controllers\User\BookmarkController;
 use App\Http\Controllers\Admin\RiceFieldController;
 use App\Http\Controllers\Admin\IrrigationController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Admin\VerificationController;
 use App\Http\Controllers\User\MakelarProfileController;
 use App\Http\Controllers\RiceFieldPhotoUploadController;
+use App\Http\Controllers\SocialMediaController as SocialMediaController;
+use App\Http\Controllers\User\SocialMediaController as UserSocialMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,16 @@ Route::prefix('products')->group(function () {
     
     });
     
+
+});
+
+//Social media login
+
+//Google
+Route::prefix('login/google/')->group(function () {
+    
+    Route::get('redirect/', [GoogleLoginController::class, 'redirect'])->name('google.redirect');
+    Route::get('callback/', [GoogleLoginController::class, 'callback'])->name('google.callback');
 
 });
 
