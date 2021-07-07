@@ -123,7 +123,9 @@ Route::prefix('users')->group(function () {
     Route::post('/login', [LoginController::class, 'store']);
     Route::post('/register', [RegisterController::class, 'store']);
 
-    Route::post('/logout', [LogoutController::class, 'store']);
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('/logout', [LogoutController::class, 'store']);
+    });
 
 });
 
