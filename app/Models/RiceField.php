@@ -34,6 +34,7 @@ class RiceField extends Model implements Viewable
         'irrigation_id',
         'region_id',
         'ketersediaan',
+        'vector',
     ];
 
     //relasi user dan riceField

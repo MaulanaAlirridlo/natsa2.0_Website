@@ -154,10 +154,14 @@ class ProductController extends Controller
 
         }
 
+        // contoh format polygon kalau sewaktu-waktu ada error
+        // $polygon = '[{"lat":-1.9771465537125645,"lng":112.18302021545438},{"lat":-1.4061088354351594,"lng":112.18302021545438},{"lat":-1.4061088354351594,"lng":113.15024063442766},{"lat":-1.9771465537125645,"lng":113.15024063442766}]';
+        
         return view('user.product', [
             'riceField' => $riceField,
             'randomRiceFields' => $randomRiceFields,
             'makelarSocialMedias' => $makelarSocialMedias,
+            // 'polygon' => $polygon,
         ]);
     }
 

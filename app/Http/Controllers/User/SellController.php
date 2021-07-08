@@ -96,6 +96,7 @@ class SellController extends Controller
             'vestige_id' => $request->vestige,
             'region_id' => $request->region,
             'irrigation_id' => $request->irrigation,
+            'vector' => $request->vector,
         ]);
 
         //Proses upload photo
@@ -116,7 +117,6 @@ class SellController extends Controller
 
             $i++;
         }
-
 
         return redirect()->route('product', $riceField);
 
@@ -152,6 +152,7 @@ class SellController extends Controller
                 'vestige_id' => $request->vestige,
                 'region_id' => $request->region,
                 'irrigation_id' => $request->irrigation,
+                'vector' => $request->vector,
             ]);
         
         if($request->has('photo')){
@@ -176,9 +177,6 @@ class SellController extends Controller
 
         }
         
-        
-        
-
         return redirect()->route('product', $riceField);
     }
 

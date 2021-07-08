@@ -2,6 +2,13 @@
 
 @section('title','User-Sell-Put')
 
+@section('header')
+<!-- leafletjs -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+@endsection
+
 @section('body')
 
 <div class="container mx-auto px-6">
@@ -121,13 +128,17 @@
                             <span class="text-gray-700 dark:text-gray-400">Maps</span>
                             <input
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                placeholder="maps" name="maps" type="text" required maxlength="100"
+                                placeholder="maps" name="maps" id="maps" type="text" required maxlength="100"
                                 value="{{ $riceField->maps }}" />
                             @error('maps')
                             <span class="text-xs text-red-600 dark:text-red-400">
                                 {{ $message }}
                             </span>
                             @enderror
+
+                            <div id="mapid" class="w-full mt-4" style="height: 400px"></div>
+
+                            <input type="hidden" id="latlgn" name="vector">
                         </label>
 
                         <div class="grid grid-cols-2 gap-4 mt-4">
@@ -248,16 +259,145 @@
 
     </div>
 
+    <div id="polygon" class="hidden">@php echo $riceField->vector @endphp</div>
+
 </div>
 </div>
 
 @endsection
 
 @section('script')
-
+<!-- jquery-->
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
+<!-- leafletjs -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+crossorigin=""></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
 <script>
+
+    var lan = -2.49607;
+    var lon = 117.89587;
+    var zoom = 13;
+    var mymap = L.map('mapid');
+    var themarker = null;
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 1000;  //time in ms (1 seconds)
+    var layer = null;
+    var draw = $('#polygon').text();
+    draw = JSON.parse(draw);
+    var region = "{{ $riceField->maps }}";
+
+    mymap.setView([lan, lon], zoom);
+    
+    osm = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(mymap);
+
+    $.get("https://nominatim.openstreetmap.org/search?format=json&q="+region, function( data ) {
+
+        lan = data[0]['lat'];
+        lon = data[0]['lon'];
+        // console.log(data[0]);
+        mymap.setView([lan, lon]);
+        themarker = L.marker([lan, lon]).addTo(mymap);
+
+    });
+
+    var latlngs = draw;
+    var layer = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
+    mymap.fitBounds(layer.getBounds(), {maxZoom:13});
+
+    var drawnItems = new L.featureGroup().addTo(mymap);
+
+    L.control.layers(
+        {
+            osm: osm,
+        },
+        { 
+            drawlayer: drawnItems
+        },
+        { 
+            position: "topleft", 
+            collapsed: false 
+        }
+    ).addTo(mymap);
+
+    mymap.addControl(new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems,
+                poly: {
+                    allowIntersection: false,
+                },
+            },
+            draw: {
+                polygon: {
+                    allowIntersection: false,
+                    showArea: true,
+                },
+                polyline: false,
+                rectangle: true,
+                circle: false,
+                marker: false,
+            },
+        })
+    );
+
+    mymap.on(L.Draw.Event.CREATED, function (event) {
+        if(layer){
+            mymap.removeLayer(layer);
+        }
+        layer = event.layer;
+        drawnItems.addLayer(layer);
+
+        var thecoor = layer.getLatLngs()[0];
+        var thecoorjson = JSON.stringify(thecoor);
+        
+        $('#latlgn').val(thecoorjson);
+
+    });
+
+    $('#maps').keyup(function(){
+
+        clearTimeout(typingTimer);
+        if ($('#maps').val()) {
+            typingTimer = setTimeout(setMap, doneTypingInterval);
+        }
+
+    });
+
+    function setMap(){
+
+        var search = $( "#maps" ).val();
+
+        $.get("https://nominatim.openstreetmap.org/search?format=json&q="+search, function( data ) {
+            
+            if(themarker){
+                mymap.removeLayer(themarker);
+            }
+
+            lan = data[0]['lat'];
+            lon = data[0]['lon'];
+            zoom = 14
+
+            mymap.setView([lan, lon], zoom);
+            themarker = L.marker([lan, lon], {
+                draggable: true,
+            }).addTo(mymap);
+
+        });
+
+    };
+
+    // bagian untuk hapus foto ==================================================
     $('body').on('click', "#fotoSawah", function () {
 
         // alert( "Removing item with an id of " + $(this).data("id") );
@@ -288,7 +428,7 @@
         
     });
     
-    
+    // bagian untuk filepond ==================================================
     FilePond.registerPlugin(
         // encodes the file as base64 data
         FilePondPluginFileEncode,

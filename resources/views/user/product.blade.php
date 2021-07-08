@@ -7,7 +7,10 @@ NATSA
 @section('header')
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-
+<!-- leafletjs -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
 @endsection
 @section('body')
 <div class="container mx-auto px-6">
@@ -17,11 +20,9 @@ NATSA
 
         {{-- gambar product --}}
 
-        {{-- <div class="w-full h-64 md:w-1/2 lg:h-96"> --}}
-
         <div class="swiper-container mySwiper w-full h-64 md:w-1/2 lg:h-96 ">
             <div class="swiper-wrapper ">
-                @foreach ($riceField->photos as $photo)               
+                @foreach ($riceField->photos as $photo)
                 <div class="swiper-slide">
                     <img class="flex h-full w-full rounded-md object-cover max-w-lg mx-auto"
                         src="{{ '/storage/'.$photo->photo_path }}" alt="{{ $photo->title }}">
@@ -33,11 +34,6 @@ NATSA
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination font-extrabold"></div>
         </div>
-        {{-- <img class="h-full w-full rounded-md object-cover max-w-lg mx-auto" src="{{ '/storage/'.$riceField->photo->photo_path }}"
-        alt="{{ $riceField->title }}"> --}}
-        {{-- </div> --}}
-
-
 
         {{-- deskripsi product --}}
         <div class="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
@@ -54,7 +50,7 @@ NATSA
             <div class="mt-2">
                 <label class="text-gray-700 text-sm" for="daerah">Daerah:</label>
                 <div class="flex items-center mt-1">
-                    <span class="text-gray-700 text-lg">{{ $riceField->region }}</span>
+                    <span class="text-gray-700 text-lg" >{{ $riceField->region }}</span>
                 </div>
             </div>
             <div class="mt-2">
@@ -148,6 +144,13 @@ NATSA
 
     <hr class="mt-10 mb-3">
 
+
+    <div>
+        <div id="mapid" class="" style="height: 400px"></div>
+    </div>
+
+    <hr class="mt-10 mb-3">
+
     {{-- detail Makelar --}}
     <div class="md:flex md:items-center">
         {{-- avatar makelar --}}
@@ -236,8 +239,6 @@ NATSA
         </div>
     </div>
 
-
-
     <div class="mt-16">
         <h3 class="text-gray-600 text-2xl font-medium">Sawah yang lain</h3>
         <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
@@ -264,20 +265,72 @@ NATSA
         </div>
     </div>
 
+    {{-- <input type="hidden" name="polygon" id="polygon" value="{{ $polygon }}"> --}}
+    
+    <div id="polygon" class="hidden">@php echo $riceField->vector @endphp</div>
 </div>
 @section('script')
-<!-- Initialize Swiper -->
+<!-- jquery-->
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+<!-- leafletjs -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+
 <script>
+    // bagian untuk leafletjs ==================================================
+    var lan = -2.49607;
+    var lon = 117.89587;
+    var zoom = 5;
+    var mymap = L.map('mapid');
+    var themarker = null;
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 1000;  //time in ms (1 seconds)
+    var layer = null;
+    var draw = $('#polygon').text();
+    draw = JSON.parse(draw);
+    var region = "{{ $riceField->maps }}";
+
+    mymap.setView([lan, lon], zoom);
+    
+    osm = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(mymap);
+
+    // var latlngs = [{'lat':-1.845383988573187,'lng':111.43562261897505},{'lat':-0.9667509997666298,'lng':111.43562261897505},{'lat':-0.9667509997666298,'lng':113.01834694093131},{'lat':-1.845383988573187,'lng':113.01834694093131}];
+    var latlngs = draw;
+    var polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
+    mymap.fitBounds(polygon.getBounds(), {maxZoom:13});
+
+    $.get("https://nominatim.openstreetmap.org/search?format=json&q="+region, function( data ) {
+
+        lan = data[0]['lat'];
+        lon = data[0]['lon'];
+        // console.log(data[0]);
+        mymap.setView([lan, lon]);
+        themarker = L.marker([lan, lon]).addTo(mymap);
+
+    });
+    //swiper
     var swiper = new Swiper(".mySwiper", {
-          pagination: {
+        pagination: {
             el: ".swiper-pagination",
             type: "fraction",
-          },
-          navigation: {
+        },
+        navigation: {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
-          },
-        });
+        },
+    });
 </script>
 @endsection
 @endsection
