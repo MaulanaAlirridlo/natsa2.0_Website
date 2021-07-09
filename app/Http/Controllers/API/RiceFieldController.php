@@ -422,14 +422,10 @@ class RiceFieldController extends Controller
 
     }
 
-    public function destroyPhoto(Request $request){
-
-        $this->validate($request,[
-            'id' => 'required|numeric',
-        ]);
+    public function destroyPhoto($id){
         
         //ambil data
-        $riceFieldPhoto = RiceFieldPhoto::where('id', $request->id)->first();
+        $riceFieldPhoto = RiceFieldPhoto::where('id', $id)->first();
 
         //hapus foto di storage
         $file = $riceFieldPhoto->photo_path;
@@ -452,7 +448,7 @@ class RiceFieldController extends Controller
 
         $data = [
             "status" => $status,
-            "riceField" => $riceField,
+            "riceField" => $msg,
         ];
 
         return response()->json($data);
