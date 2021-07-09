@@ -292,7 +292,6 @@ NATSA
     var doneTypingInterval = 1000;  //time in ms (1 seconds)
     var layer = null;
     var draw = $('#polygon').text();
-    draw = JSON.parse(draw);
     var region = "{{ $riceField->maps }}";
 
     mymap.setView([lan, lon], zoom);
@@ -307,17 +306,22 @@ NATSA
     }).addTo(mymap);
 
     // var latlngs = [{'lat':-1.845383988573187,'lng':111.43562261897505},{'lat':-0.9667509997666298,'lng':111.43562261897505},{'lat':-0.9667509997666298,'lng':113.01834694093131},{'lat':-1.845383988573187,'lng':113.01834694093131}];
-    var latlngs = draw;
-    var polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
-    mymap.fitBounds(polygon.getBounds(), {maxZoom:13});
+    if (draw != '') {        
+        draw = JSON.parse(draw);
+        var latlngs = draw;
+        var polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
+        mymap.fitBounds(polygon.getBounds(), {maxZoom:13});
+    }
 
     $.get("https://nominatim.openstreetmap.org/search?format=json&q="+region, function( data ) {
 
-        lan = data[0]['lat'];
-        lon = data[0]['lon'];
-        // console.log(data[0]);
-        mymap.setView([lan, lon]);
-        themarker = L.marker([lan, lon]).addTo(mymap);
+        if (data[0]) {            
+            lan = data[0]['lat'];
+            lon = data[0]['lon'];
+            // console.log(data[0]);
+            mymap.setView([lan, lon]);
+            themarker = L.marker([lan, lon]).addTo(mymap);
+        }
 
     });
     //swiper

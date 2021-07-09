@@ -281,16 +281,14 @@ crossorigin=""></script>
 
     var lan = -2.49607;
     var lon = 117.89587;
-    var zoom = 13;
+    var zoom = 5;
     var mymap = L.map('mapid');
     var themarker = null;
     var typingTimer;                //timer identifier
     var doneTypingInterval = 1000;  //time in ms (1 seconds)
     var layer = null;
     var draw = $('#polygon').text();
-    draw = JSON.parse(draw);
     var region = "{{ $riceField->maps }}";
-
     mymap.setView([lan, lon], zoom);
     
     osm = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -312,9 +310,12 @@ crossorigin=""></script>
 
     });
 
-    var latlngs = draw;
-    var layer = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
-    mymap.fitBounds(layer.getBounds(), {maxZoom:13});
+    if (draw != '') {        
+        draw = JSON.parse(draw);
+        var latlngs = draw;
+        var polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
+        mymap.fitBounds(polygon.getBounds(), {maxZoom:13});
+    }
 
     var drawnItems = new L.featureGroup().addTo(mymap);
 
@@ -380,18 +381,21 @@ crossorigin=""></script>
 
         $.get("https://nominatim.openstreetmap.org/search?format=json&q="+search, function( data ) {
             
+            
             if(themarker){
                 mymap.removeLayer(themarker);
             }
 
-            lan = data[0]['lat'];
-            lon = data[0]['lon'];
-            zoom = 14
+            if (data[0]) {
+                lan = data[0]['lat'];
+                lon = data[0]['lon'];
+                zoom = 14
 
-            mymap.setView([lan, lon], zoom);
-            themarker = L.marker([lan, lon], {
-                draggable: true,
-            }).addTo(mymap);
+                mymap.setView([lan, lon], zoom);
+                themarker = L.marker([lan, lon], {
+                    draggable: true,
+                }).addTo(mymap);
+            }
 
         });
 
