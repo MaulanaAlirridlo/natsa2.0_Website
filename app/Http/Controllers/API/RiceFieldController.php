@@ -26,7 +26,7 @@ class RiceFieldController extends Controller
                 ->select('id', 'title', 'harga', 'user_id')
                 ->with('photo')
                 ->defaultSort('-created_at')
-                ->allowedSorts(['id','title','harga'])
+                ->allowedSorts(['id','title','harga', 'luas'])
                 ->paginate(10);
 
         $status = [
@@ -142,13 +142,11 @@ class RiceFieldController extends Controller
     {
         $riceField = RiceField::where('id', $id)
             ->with(['user', 'vestige', 'irrigation',
-                'region', 'photo'])
+                'region', 'photos'])
             ->firstOrfail();
 
         //record bahwa sawah dilihat
         views($riceField)->record();
-
-        return views($riceField)->count();
 
         //simpan sawah di history jika login
         if(auth()->user()){
