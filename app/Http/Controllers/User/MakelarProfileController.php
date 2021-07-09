@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\RiceField;
+use App\Models\UserSocialMedia;
 use App\Http\Controllers\Controller;
 
 class MakelarProfileController extends Controller
@@ -15,13 +16,19 @@ class MakelarProfileController extends Controller
             'id',
             'title',
             'harga', )
+            ->with('photo')
             ->where('user_id', $user->id)
             ->paginate(20);
+        
+        $makelarSocialMedias = UserSocialMedia::where('user_id', $user->id)
+            ->with('socialMedia')
+            ->get();
 
-        // return $riceFields;
+        // return $makelarSocialMedias;
         return view('user.makelarProfile', [
             'riceFields' => $riceFields,
             'user' => $user,
+            'makelarSocialMedias' => $makelarSocialMedias,
         ]);
     }
 }

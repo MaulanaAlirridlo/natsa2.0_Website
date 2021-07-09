@@ -155,7 +155,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 //profile makelar
-Route::get('users/{user:name}', [MakelarProfileController::class, 'index'])->name('makelar.profile');
+Route::get('users/{user:name}', [MakelarProfileController::class, 'index'])->name('makelar.profile')->middleware('auth');
 
 //Admin
 Route::middleware(['auth'])->group(function () {

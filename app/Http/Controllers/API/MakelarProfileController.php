@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\User;
 use App\Models\RiceField;
 use Illuminate\Http\Request;
+use App\Models\UserSocialMedia;
 use App\Http\Controllers\Controller;
 
 class MakelarProfileController extends Controller
@@ -24,6 +25,10 @@ class MakelarProfileController extends Controller
 
         $user = User::where('id', $id)->first();
 
+        $makelarSocialMedias = UserSocialMedia::where('user_id', $id)
+            ->with('socialMedia')
+            ->get();
+            
         // return $riceField;
 
         $status = [
@@ -44,6 +49,7 @@ class MakelarProfileController extends Controller
             "status" => $status,
             "riceField" => $riceField,
             "user" => $user,
+            "makelarSocialMedias" => $makelarSocialMedias,
         ];
 
         return response()->json($data);

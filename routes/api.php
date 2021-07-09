@@ -150,7 +150,7 @@ Route::middleware(['auth:sanctum'])->prefix('history')->group(function () {
 
 });
 
-Route::prefix('makelar')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('makelar')->group(function () {
     
     Route::get('/{id}', [MakelarProfileController::class, 'index']);
 
