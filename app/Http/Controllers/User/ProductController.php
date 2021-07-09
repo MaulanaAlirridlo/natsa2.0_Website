@@ -88,8 +88,8 @@ class ProductController extends Controller
                 ->when($minHarga, function ($query, $minHarga) {
                     return $query->where('harga', '>', $minHarga);
                 })
-                ->when($minLuas, function ($query, $minLuas) {
-                    return $query->where('luas', '<', $minLuas);
+                ->when($maxLuas, function ($query, $maxLuas) {
+                    return $query->where('luas', '<', $maxLuas);
                 })
                 ->when($minLuas, function ($query, $minLuas) {
                     return $query->where('luas', '>', $minLuas);

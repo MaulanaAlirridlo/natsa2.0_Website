@@ -19,15 +19,39 @@ class RiceFieldController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $maxharga = $request->input('maxharga');
+        $minharga = $request->input('minharga');
+        $maxluas = $request->input('maxluas');
+        $minluas = $request->input('minluas');
+        $region = $request->input('region');
+
         $riceField = QueryBuilder::for(RiceField::class) 
+                ->select('id', 'title', 'harga', 'user_id', 'luas',
+                DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from
+                    regions where regions.id = rice_fields.region_id) as regions"),)
                 ->allowedFilters(['id', 'title', 'harga', 'user_id', 'ketersediaan'])
-                ->select('id', 'title', 'harga', 'user_id')
                 ->with('photo')
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id','title','harga', 'luas'])
+                ->when($region, function ($query, $region) {
+                    return $query->havingRaw("regions LIKE '%{$region}%'");
+                })
+                ->when($maxharga, function ($query, $maxharga) {
+                    return $query->where('harga', '<', $maxharga);
+                })
+                ->when($minharga, function ($query, $minharga) {
+                    return $query->where('harga', '>', $minharga);
+                })
+                ->when($maxluas, function ($query, $maxluas) {
+                    return $query->where('luas', '<', $maxluas);
+                })
+                ->when($minluas, function ($query, $minluas) {
+                    return $query->where('luas', '>', $minluas);
+                })
                 ->paginate(10);
+                // ->get();
 
         $status = [
             "code" => 200,
@@ -74,8 +98,6 @@ class RiceFieldController extends Controller
             'irrigation' => 'required',
             'photo.*' => ["required", "mimes:png,jpg,jpeg", "max:512"]
         ]);
-
-
 
         $riceField = RiceField::create([
             'title' => $request->title,
