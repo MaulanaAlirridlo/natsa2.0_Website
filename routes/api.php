@@ -13,6 +13,7 @@ use App\Http\Controllers\API\RiceFieldController;
 use App\Http\Controllers\API\IrrigationController;
 use App\Http\Controllers\API\SocialMediaController;
 use App\Http\Controllers\API\VerificationController;
+use App\Http\Controllers\API\MakelarProfileController;
 use App\Http\Controllers\API\UserSocialMediaController;
 
 /*
@@ -146,6 +147,12 @@ Route::middleware(['auth:sanctum'])->prefix('history')->group(function () {
 
     Route::get('/', [HistoryController::class, 'index']);
     Route::delete('/{id}', [HistoryController::class, 'destroy']);
+
+});
+
+Route::prefix('makelar')->group(function () {
+    
+    Route::get('/{id}', [MakelarProfileController::class, 'index']);
 
 });
 
