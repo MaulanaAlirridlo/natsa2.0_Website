@@ -247,14 +247,14 @@ class RiceFieldController extends Controller
             foreach ($files as $file) {
                 
                 $extension = $file->extension();
-                $fileName = $riceField->id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
+                $fileName = $id . '-' . $i . '-' . Str::random(20) . '.' . $extension;
 
                 // simpan foto di server
                 $file->storeAs('/riceFieldPhotos', $fileName, '');
 
                 //simpan nama ke database
                 RiceFieldPhoto::create([
-                    'rice_field_id' => $riceField->id,
+                    'rice_field_id' => $id,
                     'photo_path' => 'riceFieldPhotos/' . $fileName,
                 ]);
 
