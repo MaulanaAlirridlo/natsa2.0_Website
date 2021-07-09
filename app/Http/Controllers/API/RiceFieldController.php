@@ -31,7 +31,7 @@ class RiceFieldController extends Controller
                 ->select('id', 'title', 'harga', 'user_id', 'luas',
                 DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from
                     regions where regions.id = rice_fields.region_id) as regions"),)
-                ->allowedFilters(['id', 'title', 'harga', 'user_id', 'ketersediaan'])
+                ->allowedFilters(['id', 'title', 'tipe', 'user_id', 'ketersediaan', 'sertifikasi', 'vestige_id', 'irrigation_id'])
                 ->with('photo')
                 ->defaultSort('-created_at')
                 ->allowedSorts(['id','title','harga', 'luas'])
