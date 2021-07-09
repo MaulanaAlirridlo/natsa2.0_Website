@@ -40,3 +40,13 @@ php artisan serve
 - [Laravel Jetstream](https://jetstream.laravel.com/1.x/introduction.html)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Windmill Dashboard](https://windmill-dashboard.vercel.app/)
+
+### Partisipan dan Tugas:
+- [Alif Irhasshoufi Nasihul Umam / E41190530](https://github.com/alifirhas): Website Backend
+- [Maulana Alirridlo / E41190318](https://github.com/MaulanaAlirridlo): Mobile
+- [Naufal Farros / E41190550](https://github.com/NaufalFarros): Website Frontend
+- [Anggun Wasilina Mutrifani / E41190125](https://github.com/anggunWasilina): Dokumentasi
+
+### Repositori yang terhubung:
+- [NatSa Mobile Platform](https://github.com/MaulanaAlirridlo/natsa2.0_Mobile)
+- [Dokumentasi penggunaan](https://github.com/MaulanaAlirridlo/NatSa-Documentation)
