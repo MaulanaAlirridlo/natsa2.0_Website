@@ -110,7 +110,7 @@ class ProductController extends Controller
     {
 
         $riceField = RiceField::where('id', $id)
-            ->where('ketersediaan', '1')
+            // ->where('ketersediaan', '1')
             ->with(['user', 'vestige', 'irrigation',
                 'region', 'photos'])
             ->first();
