@@ -25,6 +25,9 @@
 
                     <div class="flex items-center justify-end gap-4">
                         <h3 class="text-gray-700 font-medium"></h3>
+                        <a href="{{ route('product', $riceField) }}">
+                            <span class="text-gray-600 text-sm">Lihat</span>
+                        </a>
                         <a href="{{ route('makelar.profile', $riceField->user) }}">
                             <span class="text-gray-600 text-sm">Makelar</span>
                         </a>
@@ -32,7 +35,7 @@
                         <form action="{{ route('bookmark.delete', $riceField->bookmarks_id) }}" method="POST">
                             @method('DELETE')
                             @csrf
-                            <button type="submit" onclick="return confirm('Buang sawah dari bookmark?')" class="text-gray-600 text-sm red"">
+                            <button type="submit" onclick="return confirm('Buang sawah dari bookmark?')" class="text-red-600 text-sm red"">
                                 Hapus
                             </button>
                         </form>
