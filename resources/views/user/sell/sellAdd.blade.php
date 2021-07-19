@@ -330,6 +330,12 @@ crossorigin=""></script>
 
     });
 
+    mymap.on(L.Draw.Event.DELETED, function (event) {
+        
+        $('#latlgn').val("");
+
+    });
+
     $('#maps').keyup(function(){
 
         clearTimeout(typingTimer);

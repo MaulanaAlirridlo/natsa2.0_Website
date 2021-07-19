@@ -138,7 +138,7 @@
 
                             <div id="mapid" class="w-full mt-4" style="height: 400px"></div>
 
-                            <input type="hidden" id="latlgn" name="vector">
+                            <input type="hidden" id="latlgn" name="vector" value="{{ $riceField->vector }}">
                         </label>
 
                         <div class="grid grid-cols-2 gap-4 mt-4">
@@ -281,12 +281,12 @@ crossorigin=""></script>
 
     var lan = -2.49607;
     var lon = 117.89587;
-    var zoom = 5;
+    var zoom = 13;
     var mymap = L.map('mapid');
     var themarker = null;
     var typingTimer;                //timer identifier
     var doneTypingInterval = 1000;  //time in ms (1 seconds)
-    var layer = null;
+    var layer = $('#polygon').text();
     var draw = $('#polygon').text();
     var region = "{{ $riceField->maps }}";
     mymap.setView([lan, lon], zoom);
@@ -309,13 +309,6 @@ crossorigin=""></script>
         themarker = L.marker([lan, lon]).addTo(mymap);
 
     });
-
-    if (draw != '') {        
-        draw = JSON.parse(draw);
-        var latlngs = draw;
-        var polygon = L.polygon(latlngs, {color: 'red'}).addTo(mymap);
-        mymap.fitBounds(polygon.getBounds(), {maxZoom:13});
-    }
 
     var drawnItems = new L.featureGroup().addTo(mymap);
 
@@ -352,6 +345,15 @@ crossorigin=""></script>
         })
     );
 
+    if (draw != '') {        
+
+        draw = JSON.parse(draw);
+        var polygon = L.polygon(draw, {color: 'red'}).addTo(mymap);
+        drawnItems.addLayer(polygon);
+
+        mymap.fitBounds(polygon.getBounds(), {maxZoom:13});
+    }
+
     mymap.on(L.Draw.Event.CREATED, function (event) {
         if(layer){
             mymap.removeLayer(layer);
@@ -363,6 +365,12 @@ crossorigin=""></script>
         var thecoorjson = JSON.stringify(thecoor);
         
         $('#latlgn').val(thecoorjson);
+
+    });
+
+    mymap.on(L.Draw.Event.DELETED, function (event) {
+        
+        $('#latlgn').val("");
 
     });
 
@@ -389,12 +397,10 @@ crossorigin=""></script>
             if (data[0]) {
                 lan = data[0]['lat'];
                 lon = data[0]['lon'];
-                zoom = 14
+                zoom = 13;
 
                 mymap.setView([lan, lon], zoom);
-                themarker = L.marker([lan, lon], {
-                    draggable: true,
-                }).addTo(mymap);
+                themarker = L.marker([lan, lon]).addTo(mymap);
             }
 
         });
