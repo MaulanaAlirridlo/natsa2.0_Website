@@ -226,7 +226,7 @@
 
 
             <div class="">
-                <a href="{{ route('admin.riceFields') }}">
+                <a href="{{ route('user.sell') }}">
                     <button
                         class="px-5 py-3 font-medium leading-5 text-white transition-colors duration-150 bg-gray-600 border border-transparent rounded-lg active:bg-gray-600 hover:bg-gray-700 focus:outline-none focus:shadow-outline-purple">
                         Batal
