@@ -28,7 +28,7 @@ class RiceFieldController extends Controller
         $region = $request->input('region');
 
         $riceField = QueryBuilder::for(RiceField::class) 
-                ->select('id', 'title', 'harga', 'user_id', 'luas',
+                ->select('id', 'title', 'harga', 'user_id', 'luas', 'ketersediaan',
                 DB::raw("(SELECT CONCAT(regions.provinsi, ', ', regions.kabupaten) from
                     regions where regions.id = rice_fields.region_id) as regions"),)
                 ->allowedFilters(['id', 'title', 'tipe', 'user_id', 'ketersediaan', 'sertifikasi', 'vestige_id', 'irrigation_id'])
