@@ -27,6 +27,7 @@ class RegisterController extends Controller
             'username' => $request->username,
             'ktp' => $request->ktp,
             'password' => Hash::make($request->password),
+            'email_verified_at' => now(),
         ]);
 
         //buat token untuk user

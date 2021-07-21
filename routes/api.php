@@ -125,7 +125,13 @@ Route::prefix('users')->group(function () {
     Route::post('/register', [RegisterController::class, 'store']);
 
     Route::middleware(['auth:sanctum'])->group(function () {
+
         Route::post('/logout', [LogoutController::class, 'store']);
+
+        Route::put('/', [Usercontroller::class, 'update']);
+        Route::delete('/', [Usercontroller::class, 'destroy']);
+        Route::put('password/', [Usercontroller::class, 'updatePassword']);
+
     });
 
 });
