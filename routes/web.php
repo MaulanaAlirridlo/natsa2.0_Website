@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\SellController;
 use App\Http\Controllers\Admin\UserController;
@@ -78,7 +79,7 @@ Route::prefix('products')->group(function () {
     //protected -> khusus kalau sudah login
     Route::middleware(['auth'])->group(function () {
     
-        Route::post('/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('product.bookmark');
+        Route::post('/{riceField}/bookmark', [BookmarkController::class, 'store'])->name('products.bookmark');
     
     });
     
@@ -155,7 +156,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 //profile makelar
-Route::get('users/{user:name}', [MakelarProfileController::class, 'index'])->name('makelar.profile')->middleware('auth');
+Route::get('users/{user:name}', [MakelarProfileController::class, 'index'])->name('makelar.profile')->middleware('auth', 'verified');
 
 //Admin
 Route::middleware(['auth'])->group(function () {
@@ -250,5 +251,35 @@ Route::prefix('/riceField/upload')->middleware(['auth'])->group(function () {
 
     Route::delete('/delete', [RiceFieldPhotoUploadController::class, 'destroy']);
 
+
+});
+
+Route::get('/setup', function () {
+
+    Artisan::call('config:cache');
+    Artisan::call('route:cache');
+    Artisan::call('view:cache');
+
+    return 'DONE'; //Return anything
+});
+
+Route::get('/clear', function () {
+
+    Artisan::call('route:clear');
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+
+    return 'DONE'; //Return anything
+});
+
+Route::get('/symlink', function () {
+
+    $link = Artisan::call('storage:link');
+
+    if($link){
+        return "yes";
+    }
+
+    return "nope";
 
 });

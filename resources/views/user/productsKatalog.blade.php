@@ -3,7 +3,7 @@
 
     <div class="flex items-end justify-end h-56 w-full bg-cover"
         style="background-image: url('{{ '/storage/'.$riceField->photo->photo_path }}')">
-        <form action="{{ route('product.bookmark', $riceField->id) }}" method="POST">
+        <form action="{{ route('products.bookmark', $riceField->id) }}" method="POST">
             <button
                 class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
                 title="bookmark" type="submit">
