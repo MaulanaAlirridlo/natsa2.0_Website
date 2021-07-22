@@ -54,6 +54,7 @@ class SocialMediaController extends Controller
 
         $this->validate($request, [
             'sosmed' => ['required','max:100','string','regex:/^[\pL\s\-]+$/u'],
+            'icon' => ["required", "mimes:png,jpg,jpeg", "max:512"],
         ]);
 
         $sosmed = SocialMedia::create([

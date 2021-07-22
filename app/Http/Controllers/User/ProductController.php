@@ -120,6 +120,7 @@ class ProductController extends Controller
             ->get();
             
         $randomRiceFields = RiceField::select('id', 'title', 'harga')
+            ->where('ketersediaan', '1')
             ->with('photo')
             ->limit(4)
             ->inRandomOrder()->get();
