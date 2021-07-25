@@ -43,10 +43,8 @@ class HistoryController extends Controller
 
     public function destroy($id){
 
-        UserHistory::where('id', $id)
+        $riceField = UserHistory::where('id', $id)
             ->where('user_id', auth()->user()->id)->delete();
-
-            $riceField = RiceField::where('id', $id)->delete();
 
         $status = [
             "code" => 204,
